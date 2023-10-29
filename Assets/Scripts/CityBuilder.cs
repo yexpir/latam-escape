@@ -7,6 +7,7 @@ public class CityBuilder : MonoBehaviour
 {
     public List<Block> blocksPrefabs = new();
     List<Block> blocksValid = new();
+    [SerializeField] bool randomSeed;
     [SerializeField] int seed;
     [SerializeField] int width;
     [SerializeField] int length;
@@ -27,8 +28,8 @@ public class CityBuilder : MonoBehaviour
         length *= offset;
         startPosition.x = - (width + 15);
         spawnPosition = startPosition;
-        
-        Random.InitState(seed/*Random.Range(100000, 999999)*/);
+        if (randomSeed) seed = Random.Range(100000, 1000000);
+        Random.InitState(seed);
     }
 
     void Update()

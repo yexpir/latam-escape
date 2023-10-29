@@ -182,7 +182,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 20
   far clip plane: 1000
   field of view: 61.2
   orthographic: 0
@@ -495,6 +495,7 @@ MonoBehaviour:
   - {fileID: 6671560096445256122, guid: dd98b350e968ba14fbbbafecde4b2f87, type: 3}
   - {fileID: 8423027765711675373, guid: 64bca70d8b65b794cae53a8f0712b5ed, type: 3}
   - {fileID: -4636877918106343904, guid: 0a478882b8bdf324590d0a58d9998b80, type: 3}
+  randomSeed: 0
   seed: 1235
   width: 5
   length: 20
@@ -543,7 +544,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 61.2
     OrthographicSize: 5
-    NearClipPlane: 0.3
+    NearClipPlane: 20
     FarClipPlane: 1000
     Dutch: 0
     ModeOverride: 0
