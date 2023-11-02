@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
-        print("SIDESTEP " + isSideSteping + " --- TURNING " + isTurning);
+        print("SIDESTEP " + CanSideStep(1) + " --- TURNING " + CanTurn(1));
         if(isSideSteping) return;
         if (isTurning) return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -141,14 +141,14 @@ public class PlayerController : MonoBehaviour
 
     bool CanTurn(int dir)
     {
-        var target = transform.position + transform.forward + transform.right * (dir * 10);
+        var target = transform.position + transform.forward * 3 + transform.right * (dir * 10);
         var direction = target - transform.position;
-        return Physics.Raycast(transform.position, direction, 10, Block.blockLayerMask);
+        return !Physics.Raycast(transform.position, direction, 10, Block.blockLayerMask);
     }
 
     bool CanSideStep(int dir)
     {
-        return !CanTurn(dir) && Physics.Raycast(transform.position, transform.right * dir, 3, Block.blockLayerMask);
+        return !CanTurn(dir) && !Physics.Raycast(transform.position, transform.right * dir, 3, Block.blockLayerMask);
     }
 
     void OnTriggerEnter(Collider other)
@@ -159,8 +159,8 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward + transform.right * 10);
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward - transform.right * 10);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 3 + transform.right * 10);
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 3 - transform.right * 10);
         Gizmos.DrawWireSphere(targetSidePos, 3);
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position + transform.right * 3);
