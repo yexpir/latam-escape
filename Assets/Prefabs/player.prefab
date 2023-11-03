@@ -153,6 +153,10 @@ MonoBehaviour:
   _sideStepSpeed: 20
   _sideStepSize: 3
   _turnSpeed: 6
+  _turnOriginForwardOffset: 2
+  _turnTargetForwardOffset: 2
+  _sideStepOriginForwardOffset: 0
+  _sideStepTargetForwardOffset: 0
 --- !u!1 &1555529902351545803
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,17 +7,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _sideStepSpeed;
     [SerializeField] float _sideStepSize;
     [SerializeField] float _turnSpeed;
-    bool isSideSteping;
-    bool isTurning;
+    bool _isSideSteping;
+    bool _isTurning;
 
     RaycastHit _hitR;
     RaycastHit _hitL;
+
+    [SerializeField] float _turnOriginForwardOffset;
+    [SerializeField] float _turnTargetForwardOffset;
+    [SerializeField] float _sideStepOriginForwardOffset;
+    [SerializeField] float _sideStepTargetForwardOffset;
+
+    Vector3 _turnRayOrigin;
+    Vector3 _turnRayTarget;
+    Vector3 _sideRayStepOrigin;
+    Vector3 _sideRayStepTarget;
     void Update()
     {
         transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
         print("SIDESTEP " + CanSideStep(1) + " --- TURNING " + CanTurn(1));
-        if(isSideSteping) return;
-        if (isTurning) return;
+        if(_isSideSteping) return;
+        if (_isTurning) return;
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             StartCoroutine(TurnCorner(1));
@@ -33,9 +43,9 @@ public class PlayerController : MonoBehaviour
     Vector3 targetSidePos;
     IEnumerator SideStep(int direction)
     {
-        if (isTurning) yield break;
+        if (_isTurning) yield break;
         if (!CanSideStep(direction)) yield break;
-        isSideSteping = true;
+        _isSideSteping = true;
         
         float currDistance;
         var prevDistance = _sideStepSize;
@@ -76,17 +86,14 @@ public class PlayerController : MonoBehaviour
         }
         
         
-        isSideSteping = false;
+        _isSideSteping = false;
     }
-
-
 
     IEnumerator TurnCorner(int direction)
     {
-        //Physics.Raycast(transform.position, -transform.right + transform.forward*0.5f, 10)
-        if(isSideSteping) yield break;
+        if(_isSideSteping) yield break;
         if (!CanTurn(direction)) yield break;
-        isTurning = true;
+        _isTurning = true;
 
         var startRotation = transform.rotation;
         var targetDirection = transform.right * direction;
@@ -134,21 +141,25 @@ public class PlayerController : MonoBehaviour
             new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(startPosition.z, targetDistance, 1)) : 
             new Vector3(Mathf.Lerp(startPosition.x, targetDistance, 1), transform.position.y, transform.position.z);
         
-        isTurning = false;
+        _isTurning = false;
     }
 
     bool IsMovingAlongZ => Mathf.Abs(transform.right.x) > Mathf.Abs(transform.right.z);
 
     bool CanTurn(int dir)
     {
-        var target = transform.position + transform.forward * 3 + transform.right * (dir * 10);
-        var direction = target - transform.position;
-        return !Physics.Raycast(transform.position, direction, 10, Block.blockLayerMask);
+        _turnRayOrigin = transform.position + transform.forward * _turnOriginForwardOffset;
+        _turnRayTarget = _turnRayOrigin + transform.forward * _turnTargetForwardOffset + transform.right * (dir * 10);
+        var direction = (_turnRayTarget - _turnRayOrigin).normalized;
+        return !Physics.Raycast(_turnRayOrigin, direction, 10, Block.blockLayerMask);
     }
 
     bool CanSideStep(int dir)
     {
-        return !CanTurn(dir) && !Physics.Raycast(transform.position, transform.right * dir, 3, Block.blockLayerMask);
+        _sideRayStepOrigin = transform.position + transform.forward * _sideStepOriginForwardOffset;
+        _sideRayStepTarget = _sideRayStepOrigin + transform.forward * _sideStepTargetForwardOffset + transform.right * (dir * 3);
+        var direction = (_sideRayStepTarget - _sideRayStepOrigin).normalized;
+        return !CanTurn(dir) && !Physics.Raycast(_sideRayStepOrigin, direction, 3, Block.blockLayerMask);
     }
 
     void OnTriggerEnter(Collider other)
@@ -159,11 +170,10 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 3 + transform.right * 10);
-        Gizmos.DrawLine(transform.position, transform.position + transform.forward * 3 - transform.right * 10);
-        Gizmos.DrawWireSphere(targetSidePos, 3);
+        Gizmos.DrawLine(_turnRayOrigin, _turnRayTarget);
+        Gizmos.DrawLine(_turnRayOrigin, _turnRayTarget - transform.right * 20);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + transform.right * 3);
-        Gizmos.DrawLine(transform.position, transform.position - transform.right * 3);
+        Gizmos.DrawLine(_sideRayStepOrigin, _sideRayStepTarget);
+        Gizmos.DrawLine(_sideRayStepOrigin, _sideRayStepTarget - transform.right * 6);
     }
 }
