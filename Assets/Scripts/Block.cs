@@ -8,6 +8,8 @@ public class Block : MonoBehaviour
     Material _material;
 
     public static LayerMask blockLayerMask = 1<<8;
+
+    public Transform cube;
     
     void Awake()
     {

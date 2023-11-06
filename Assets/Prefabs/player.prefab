@@ -149,14 +149,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d24ac3823ad7ce46ab136a9a67b479a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _forwardSpeed: 20
+  _forwardSpeed: 7
   _sideStepSpeed: 20
-  _sideStepSize: 3
-  _turnSpeed: 6
+  _sidestepSize: 5
+  _turnSpeed: 3
+  _acceleration: 0
   _turnOriginForwardOffset: 2
   _turnTargetForwardOffset: 3
   _sideStepOriginForwardOffset: 0
-  _sideStepTargetForwardOffset: 0
+  _sidestepTargetForwardOffset: 0
 --- !u!1 &1555529902351545803
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,32 +10,72 @@ public class CityBuilder : MonoBehaviour
     List<Block> blocksValid = new();
     [SerializeField] bool randomSeed;
     [SerializeField] int seed;
-    [SerializeField] int width;
-    [SerializeField] int length;
-    [SerializeField] int blockUnit;
-    [SerializeField] int streetWidth;
-    int offset;
+    [SerializeField] float setCityWidth;
+    [SerializeField] float setCityLength;
+    [SerializeField] float setBlockUnit;
+    [SerializeField] float setStreetWidth;
+    public static float cityWidth;
+    public static float cityLength;
+    public static float blockUnit;
+    public static float streetWidth;
+    float offset;
     Vector3 startPosition = Vector3.zero;
     Vector3 spawnPosition;
     [SerializeField] LayerMask layerMask;
 
 
     Vector3[] spheres = new Vector3[4];
-    
+
+    void Awake()
+    {
+        cityWidth = setCityWidth;
+        cityLength = setCityLength;
+        blockUnit = setBlockUnit;
+        streetWidth = setStreetWidth;
+    }
+
     void Start()
     {
-        offset = blockUnit + streetWidth;
-        width *= offset;
-        length *= offset;
-        startPosition.x = - (width + 15);
-        spawnPosition = startPosition;
+        offset = setBlockUnit + streetWidth;
+        setCityWidth *= offset;
+        setCityLength *= offset;
         if (randomSeed) seed = Random.Range(100000, 1000000);
         Random.InitState(seed);
+
+        var longUnit = streetWidth + setBlockUnit * 2;
+        var pivotOffset = (longUnit - setBlockUnit) / 2;
+        startPosition.x = pivotOffset;
+        startPosition.z = pivotOffset;
+        spawnPosition = startPosition;
+        foreach (var block in (Blocks[]) Enum.GetValues(typeof(Blocks)))
+        {
+            switch (block)
+            {
+                case Blocks.Reg :
+                    blocksPrefabs[(int) block].cube.localScale = new Vector3(setBlockUnit, setBlockUnit, setBlockUnit);
+                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(0, setBlockUnit / 2, 0);
+                    break;
+                case Blocks.Big :
+                    blocksPrefabs[(int) block].cube.localScale = new Vector3(longUnit, setBlockUnit, longUnit);
+                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(pivotOffset, setBlockUnit / 2, pivotOffset);
+                    break;
+                case Blocks.Hor :
+                    blocksPrefabs[(int) block].cube.localScale = new Vector3(longUnit, setBlockUnit, setBlockUnit);
+                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(pivotOffset, setBlockUnit / 2, 0);
+                    break;
+                case Blocks.Ver :
+                    blocksPrefabs[(int) block].cube.localScale = new Vector3(setBlockUnit, setBlockUnit, longUnit);
+                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(0, setBlockUnit / 2, pivotOffset);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 
     void Update()
     {
-        if (spawnPosition.z > length) return;
+        if (spawnPosition.z > setCityLength) return;
         
         if (CanSpawnBlock(spawnPosition))
         {
@@ -63,7 +104,7 @@ public class CityBuilder : MonoBehaviour
         
         spawnPosition.x += offset;
 
-        if (spawnPosition.x >= width)
+        if (spawnPosition.x >= setCityWidth)
         {
             spawnPosition.x = startPosition.x;
             spawnPosition.z += offset;
@@ -97,4 +138,12 @@ public class CityBuilder : MonoBehaviour
         Gizmos.DrawWireSphere(spheres[2] + shift, 5);
         Gizmos.DrawWireSphere(spheres[3] + shift, 5);
     }
+}
+
+public enum Blocks
+{
+    Reg,
+    Big,
+    Hor,
+    Ver
 }

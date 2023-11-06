@@ -10,7 +10,7 @@ public class PlayerSpawner : MonoBehaviour
     [SerializeField] LayerMask _blockLayer;
 
     [SerializeField] CinemachineVirtualCamera _camera;
-    Vector3 offset = Vector3.right * 30;
+    Vector3 offset = Vector3.right * (CityBuilder.blockUnit + CityBuilder.streetWidth);
     void Start()
     {
         StartCoroutine(SpawnPlayerRoutine());
@@ -25,6 +25,7 @@ public class PlayerSpawner : MonoBehaviour
     void SpawnPlayer()
     {
         var spawnPosition = Vector3.zero;
+        spawnPosition.x += (CityBuilder.blockUnit + CityBuilder.streetWidth) * (int)(CityBuilder.cityWidth/2);
         for (var i = 0; i < 3; i++)
         {
             if (Physics.CheckSphere(spawnPosition, 3, _blockLayer))

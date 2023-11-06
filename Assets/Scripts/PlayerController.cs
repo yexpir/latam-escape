@@ -5,8 +5,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float _forwardSpeed;
     [SerializeField] float _sideStepSpeed;
-    [SerializeField] float _sideStepSize;
+    [SerializeField] float _sidestepSize;
     [SerializeField] float _turnSpeed;
+    [SerializeField] float _acceleration;
     bool _isSideSteping;
     bool _isTurning;
 
@@ -16,43 +17,42 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _turnOriginForwardOffset;
     [SerializeField] float _turnTargetForwardOffset;
     [SerializeField] float _sideStepOriginForwardOffset;
-    [SerializeField] float _sideStepTargetForwardOffset;
+    [SerializeField] float _sidestepTargetForwardOffset;
 
-    Vector3 _turnRayOrigin;
-    Vector3 _turnRayTarget;
-    Vector3 _sideRayStepOrigin;
-    Vector3 _sideRayStepTarget;
+    Vector3 TurnRayOrigin => transform.position + transform.forward * _turnOriginForwardOffset;
+    Vector3 TurnRayTarget;
+    Vector3 SidestepRayOrigin => transform.position + transform.forward * _sideStepOriginForwardOffset;
+    Vector3 SidestepRayTarget;
+    
     void Update()
     {
         transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
-        print("SIDESTEP " + CanSideStep(1) + " --- TURNING " + CanTurn(1));
+        
         if(_isSideSteping) return;
         if (_isTurning) return;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        
+        if (In.RightPressed || In.LeftPressed)
         {
-            StartCoroutine(TurnCorner(1));
-            StartCoroutine(SideStep(1));
+            StartCoroutine(TurnCorner(In.XInt));
+            StartCoroutine(SideStep(In.XInt));
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            StartCoroutine(TurnCorner(-1));
-            StartCoroutine(SideStep(-1));
-        }
+
+        _forwardSpeed += Time.deltaTime * _acceleration;
     }
 
     Vector3 targetSidePos;
     IEnumerator SideStep(int direction)
     {
         if (_isTurning) yield break;
-        if (!CanSideStep(direction)) yield break;
+        if (!CanSidestep(direction)) yield break;
         _isSideSteping = true;
         
         float currDistance;
-        var prevDistance = _sideStepSize;
+        var prevDistance = _sidestepSize;
         
         if (IsMovingAlongZ)
         {
-            targetSidePos = transform.position + transform.right * (_sideStepSize * direction);
+            targetSidePos = transform.position + transform.right * (_sidestepSize * direction);
             while (true)
             {
                 transform.position += transform.right * (direction * _sideStepSpeed * Time.deltaTime);
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            targetSidePos = transform.position + transform.right * (_sideStepSize * direction);
+            targetSidePos = transform.position + transform.right * (_sidestepSize * direction);
             while (true)
             {
                 transform.position += transform.right * (direction * _sideStepSpeed * Time.deltaTime);
@@ -103,14 +103,11 @@ public class PlayerController : MonoBehaviour
         var isInZ = IsMovingAlongZ;
         var forwardValue = isInZ ? transform.position.z : transform.position.x;
         float girdForwardValue;
-        if ((isInZ && transform.forward.z > 0) || (!isInZ && transform.forward.x > 0))
-        {
-            girdForwardValue = Mathf.Ceil(forwardValue / 3) * 3;
-        }
+        if (isInZ && transform.forward.z > 0 || !isInZ && transform.forward.x > 0)
+            girdForwardValue = Mathf.Ceil(forwardValue / _sidestepSize) * _sidestepSize;
         else
-        {
-            girdForwardValue = Mathf.Floor(forwardValue / 3) * 3;
-        }
+            girdForwardValue = Mathf.Floor(forwardValue / _sidestepSize) * _sidestepSize;
+
         do
         {
             forwardValue = isInZ ? transform.position.z : transform.position.x;
@@ -122,7 +119,7 @@ public class PlayerController : MonoBehaviour
             new Vector3(girdForwardValue, transform.position.y, transform.position.z);
         transform.position = startPosition;
         
-        var turnTargetPos = transform.position + transform.forward * 3;
+        var turnTargetPos = transform.position + transform.forward * _sidestepSize;
         var targetDistance = isInZ ? turnTargetPos.z : turnTargetPos.x;
         while (time < 1f)
         {
@@ -148,19 +145,21 @@ public class PlayerController : MonoBehaviour
 
     bool CanTurn(int dir)
     {
-        _turnRayOrigin = transform.position + transform.forward * _turnOriginForwardOffset;
-        _turnRayTarget = _turnRayOrigin + transform.forward * _turnTargetForwardOffset + transform.right * (dir * 10);
-        var direction = (_turnRayTarget - _turnRayOrigin).normalized;
-        return !Physics.Raycast(_turnRayOrigin, direction, 10, Block.blockLayerMask);
+        TurnRayTarget = GetTurnRayTarget(dir);
+        var direction = (TurnRayTarget - TurnRayOrigin).normalized;
+        return !Physics.Raycast(TurnRayOrigin, direction, CityBuilder.streetWidth, Block.blockLayerMask);
     }
 
-    bool CanSideStep(int dir)
+    bool CanSidestep(int dir)
     {
-        _sideRayStepOrigin = transform.position + transform.forward * _sideStepOriginForwardOffset;
-        _sideRayStepTarget = _sideRayStepOrigin + transform.forward * _sideStepTargetForwardOffset + transform.right * (dir * 3);
-        var direction = (_sideRayStepTarget - _sideRayStepOrigin).normalized;
-        return !CanTurn(dir) && !Physics.Raycast(_sideRayStepOrigin, direction, 3, Block.blockLayerMask);
+        SidestepRayTarget = GetSidestepRayTarget(dir);
+        var direction = (SidestepRayTarget - SidestepRayOrigin).normalized;
+        return !CanTurn(dir) && !Physics.Raycast(SidestepRayOrigin, direction, _sidestepSize + 1, Block.blockLayerMask);
     }
+
+    Vector3 GetTurnRayTarget(int dir) => TurnRayOrigin + transform.forward * _turnTargetForwardOffset + transform.right * (dir * CityBuilder.streetWidth);
+
+    Vector3 GetSidestepRayTarget(int dir) => SidestepRayOrigin + transform.forward * _sidestepTargetForwardOffset + transform.right * (dir * _sidestepSize);
 
     void OnTriggerEnter(Collider other)
     {
@@ -170,10 +169,10 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(_turnRayOrigin, _turnRayTarget);
-        Gizmos.DrawLine(_turnRayOrigin, _turnRayTarget - transform.right * 20);
+        Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(1));
+        Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(-1));
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(_sideRayStepOrigin, _sideRayStepTarget);
-        Gizmos.DrawLine(_sideRayStepOrigin, _sideRayStepTarget - transform.right * 6);
+        Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(1));
+        Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(-1));
     }
 }
