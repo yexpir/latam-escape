@@ -7,7 +7,7 @@ public class Block : MonoBehaviour
     public int probability;
     Material _material;
 
-    public static LayerMask blockLayerMask = 1<<8;
+    public static LayerMask layerMask = 1<<8;
 
     public Transform cube;
     

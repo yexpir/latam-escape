@@ -28,7 +28,7 @@ public class PlayerSpawner : MonoBehaviour
         spawnPosition.x += (CityBuilder.blockUnit + CityBuilder.streetWidth) * (int)(CityBuilder.cityWidth/2);
         for (var i = 0; i < 3; i++)
         {
-            if (Physics.CheckSphere(spawnPosition, 3, _blockLayer))
+            if (Physics.CheckSphere(spawnPosition + Vector3.forward * CityBuilder.streetWidth, 3, _blockLayer))
             {
                 spawnPosition += offset;
             }

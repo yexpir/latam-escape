@@ -147,14 +147,14 @@ public class PlayerController : MonoBehaviour
     {
         TurnRayTarget = GetTurnRayTarget(dir);
         var direction = (TurnRayTarget - TurnRayOrigin).normalized;
-        return !Physics.Raycast(TurnRayOrigin, direction, CityBuilder.streetWidth, Block.blockLayerMask);
+        return !Physics.Raycast(TurnRayOrigin, direction, CityBuilder.streetWidth, Block.layerMask);
     }
 
     bool CanSidestep(int dir)
     {
         SidestepRayTarget = GetSidestepRayTarget(dir);
         var direction = (SidestepRayTarget - SidestepRayOrigin).normalized;
-        return !CanTurn(dir) && !Physics.Raycast(SidestepRayOrigin, direction, _sidestepSize + 1, Block.blockLayerMask);
+        return !CanTurn(dir) && !Physics.Raycast(SidestepRayOrigin, direction, _sidestepSize + 1, Block.layerMask);
     }
 
     Vector3 GetTurnRayTarget(int dir) => TurnRayOrigin + transform.forward * _turnTargetForwardOffset + transform.right * (dir * CityBuilder.streetWidth);
