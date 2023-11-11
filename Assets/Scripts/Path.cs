@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.Splines;
 
-public class Path
+[RequireComponent(typeof(SplineContainer))]
+public class Path : MonoBehaviour
 {
         public Spline Spline => _spline;
-        
-        SplineContainer _container;
         Spline _spline;
+
+        public SplineContainer Container => _container;
+        SplineContainer _container;
         
-        public Path(SplineContainer container)
+        protected void Init()
         {
-                _container = container;
+                _container = GetComponent<SplineContainer>();
                 _spline = _container.Spline;
         }
 
@@ -33,5 +35,12 @@ public class Path
         public void RemoveKnot(int index)
         {
                 _spline.RemoveAt(index);
+        }
+
+        public void OffsetPath(Vector3 offset)
+        {
+                for (int i = 0; i < _spline.Count; i++)
+                {
+                }
         }
 }

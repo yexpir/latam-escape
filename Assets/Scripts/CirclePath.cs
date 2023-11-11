@@ -3,7 +3,8 @@ using UnityEngine.Splines;
 
 public class CirclePath : Path
 {
-    public CirclePath(SplineContainer obj, Transform origin, float maxDistance) : base(obj)
+    public void Init(Transform target, float maxDistance)
     {
+        base.Init();
     }
 }

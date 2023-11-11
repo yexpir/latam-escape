@@ -187,6 +187,7 @@ MonoBehaviour:
   _pathBuilderPrefab: {fileID: 9218310201888447806, guid: d50ee8befc93ba3449cbe80f1f26dad1,
     type: 3}
   _travelSpeed: 10
+  _sidestepSpeed: 10
 --- !u!1 &1555529902351545803
 GameObject:
   m_ObjectHideFlags: 0

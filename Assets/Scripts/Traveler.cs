@@ -20,8 +20,7 @@ class Traveler : MonoBehaviour
         while (t < 1)
         {
             t = time / totalDistance;
-            print(path.Spline.EvaluatePosition(t) + " --- " + t);
-            transform.position = path.Spline.EvaluatePosition(t);
+            transform.position = (Vector3)path.Spline.EvaluatePosition(t) + path.transform.position;
             transform.forward = path.Spline.EvaluateTangent(t);
             yield return null;
             time += Time.deltaTime * speed;

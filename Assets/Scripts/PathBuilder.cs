@@ -1,28 +1,29 @@
 ﻿using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
-[RequireComponent(typeof(SplineContainer))]
 class PathBuilder : MonoBehaviour
 {
-    Path _path;
+    [SerializeField] ForwardPath _forwardPathPrefab;
+    [SerializeField] CirclePath _circlePathPrefab;
     public Path Path => _path;
-    SplineContainer _container;
+    Path _path;
 
     void Awake()
     {
-        _container = GetComponent<SplineContainer>();
     }
 
     public Path PathForward(Transform origin, float maxDistance)
     {
-        _path = new ForwardPath(_container, origin, maxDistance);
+        _path = Instantiate(_forwardPathPrefab);
+        ((ForwardPath)_path).Init(origin, maxDistance);
         return _path;
     }
 
     public Path CirclePath(Transform origin, float maxDistance)
     {
-        _path = new CirclePath(_container, origin, maxDistance);
+        _path = Instantiate(_circlePathPrefab);
         return _path;
     }
 }

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1428920973383126147}
   - component: {fileID: 9218310201888447806}
-  - component: {fileID: 6052993385788162671}
   m_Layer: 0
   m_Name: PathBuilder
   m_TagString: Untagged
@@ -45,43 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f1c768b65a4517b8267da14c4be76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6052993385788162671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4228224682306362493}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Spline:
-    m_EditModeType: 1
-    m_Knots: []
-    m_MetaData: []
-    m_Closed: 0
-    m_IntData:
-      m_Data: []
-    m_FloatData:
-      m_Data: []
-    m_Float4Data:
-      m_Data: []
-    m_ObjectData:
-      m_Data: []
-  m_Splines:
-  - m_EditModeType: 1
-    m_Knots: []
-    m_MetaData: []
-    m_Closed: 0
-    m_IntData:
-      m_Data: []
-    m_FloatData:
-      m_Data: []
-    m_Float4Data:
-      m_Data: []
-    m_ObjectData:
-      m_Data: []
-  m_Knots:
-    m_KnotsLink: []
+  _forwardPathPrefab: {fileID: 4860432154550044561, guid: 4ace8b0453ecdb645910d649d88ce9c3,
+    type: 3}
+  _circlePathPrefab: {fileID: 7119359947113962317, guid: d46f22c21c5335a499f7e01094ad7958,
+    type: 3}
