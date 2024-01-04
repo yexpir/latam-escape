@@ -7,11 +7,13 @@ public class ForwardPath : Path
     {
         base.Init();
         
-        AddKnot(target.position, target.rotation);
+        AddKnot(target.position, target.rotation, -target.forward, target.forward);
         var ray = new Ray(target.position, target.forward);
         RaycastHit hit;
         AddKnot(Physics.Raycast(ray, out hit, maxDistance, Block.layerMask) ? 
             hit.point : 
-            target.position + target.forward * maxDistance);
+            target.position + target.forward * maxDistance, target.rotation, -target.forward, target.forward);
     }
+
+    public override float GetTotalDistance() => Vector3.Distance(Spline[0].Position, Spline[1].Position);
 }

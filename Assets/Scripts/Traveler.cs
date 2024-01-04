@@ -1,31 +1,23 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using Actions_Stuff;
+using DefaultNamespace;
 using UnityEngine;
-using UnityEngine.Splines;
 
-class Traveler : MonoBehaviour
+public class Traveler : MonoBehaviour
 {
-    public void Travel(Path path, float speed)
+    /*ActionRoutine _actionRoutine;
+    [SerializeField] Character _character;
+    Actioner _actioner;
+    void Awake()
     {
-        StartCoroutine(Co_Travel(path, speed));
-    }
+        _actioner = GetComponent<Actioner>();
+        var path = PathBuilder.Instance.PathForward(transform, 1000);
+        _actionRoutine = ActionBuilder.CreateAction((int)Actions.Forward, Co_Travel(path, _character.travelSpeed));
+        _actioner.AddToPool(_actionRoutine);
+    }*/
 
-    private IEnumerator Co_Travel(Path path, float speed)
+    public IEnumerator Co_Travel(Path path, float speed)
     {
-        while (path.Spline.Count < 2)
-            yield return null;
-        var time = 0.0f;
-        var t = 0.0f;
-        var totalDistance = Vector3.Distance(path.Spline[0].Position, path.Spline[1].Position);
-        while (t < 1)
-        {
-            t = time / totalDistance;
-            transform.position = (Vector3)path.Spline.EvaluatePosition(t) + path.transform.position;
-            transform.forward = path.Spline.EvaluateTangent(t);
-            yield return null;
-            time += Time.deltaTime * speed;
-        }
-        transform.position = path.Spline.EvaluatePosition(1);
-        transform.forward = path.Spline.EvaluateTangent(1);
+        yield return null;
     }
 }

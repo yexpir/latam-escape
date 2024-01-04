@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             ResetCurrentScene();
-        _fps.text = (1 / Time.deltaTime).ToString();
+        //_fps.text = (1 / Time.deltaTime).ToString();
+        _fps.text = PlayerMovement.Instance.speed.ToString();
     }
 
 

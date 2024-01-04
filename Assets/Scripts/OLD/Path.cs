@@ -2,7 +2,7 @@
 using UnityEngine.Splines;
 
 [RequireComponent(typeof(SplineContainer))]
-public class Path : MonoBehaviour
+public abstract class Path : MonoBehaviour
 {
         public Spline Spline => _spline;
         Spline _spline;
@@ -26,6 +26,11 @@ public class Path : MonoBehaviour
                 var knot = new BezierKnot(position, Vector3.zero, Vector3.zero, rotation);
                 _spline.Add(knot, TangentMode.Mirrored);
         }
+        public void AddKnot(Vector3 position, Quaternion rotation, Vector3 tanOut)
+        {
+                var knot = new BezierKnot(position, -tanOut, tanOut, rotation);
+                _spline.Add(knot, TangentMode.Mirrored);
+        }
         public void AddKnot(Vector3 position, Quaternion rotation, Vector3 tanIn, Vector3 tanOut)
         {
                 var knot = new BezierKnot(position, tanIn, tanOut, rotation);
@@ -43,4 +48,6 @@ public class Path : MonoBehaviour
                 {
                 }
         }
+
+        public abstract float GetTotalDistance();
 }

@@ -14,10 +14,12 @@ public class CityBuilder : MonoBehaviour
     [SerializeField] float setCityLength;
     [SerializeField] float setBlockUnit;
     [SerializeField] float setStreetWidth;
+    [SerializeField] float setSidesetSize;
     public static float cityWidth;
     public static float cityLength;
     public static float blockUnit;
     public static float streetWidth;
+    public static float stepsideSize;
     float offset;
     Vector3 startPosition = Vector3.zero;
     Vector3 spawnPosition;
@@ -32,6 +34,7 @@ public class CityBuilder : MonoBehaviour
         cityLength = setCityLength;
         blockUnit = setBlockUnit;
         streetWidth = setStreetWidth;
+        stepsideSize = setStreetWidth/3;
     }
 
     void Start()
