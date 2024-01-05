@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5ed898150c241db9e0fea477f3b6a21, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 8a16244ad03d4d9d856b2dae32cc39c8, type: 3}
+  m_Name: Run
   m_EditorClassIdentifier: 
-  characterName: 
-  travelSpeed: 10
-  sidestepSpeed: 4
-  turnSpeed: 10
-  acceleration: 0.1
+  id: 0
+  abilityName: Run
+  description: Allows the holder to run
+  behaviour: {fileID: 11400000, guid: 67e13d09c42ab75488e91555a5b6e071, type: 2}

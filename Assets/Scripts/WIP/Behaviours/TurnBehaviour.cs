@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace WIP.Behaviours
 {
-    [Serializable]
+    [CreateAssetMenu(fileName = "New Behaviour", menuName = "Behaviours/TurnBehaviour")]
     public class TurnBehaviour : AbilityBehaviour
     {
         Transform _transform;
         float _speed;
-        int _direction;
+        [SerializeField] int _direction;
 
         public TurnBehaviour(Transform transform, float speed, int direction)
         {

@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
-using Actions_Stuff;
+using System.Linq;
 using UnityEngine;
 
 namespace WIP
 {
     public class Actor : MonoBehaviour
     {
-        List<ActionRoutine> _activeActions = new();
+        [field:SerializeField]public Character Character { get; }
 
-        HashSet<ActionRoutine> _pool = new();
-        public HashSet<ActionRoutine> ActionPool => _pool;
-        
-        public void AddAction(ActionRoutine actionRoutine)
-        {
-            _pool.Add(actionRoutine);
-        }
+        public HashSet<AbilityHandler> ActiveActions => ActionPool.Where(a => a.coroutine != null).ToHashSet();
 
-        public void AddActiveAction(ActionRoutine action)
+        public List<Ability> Actions = new();
+        List<AbilityHandler> ActionPool = new();
+        [SerializeField]public AbilityHandler actionA;
+        public void AddActiveAction(AbilityHandler action) => ActiveActions.Add(action);
+        public void RemoveActiveAction(AbilityHandler action) => ActiveActions.Remove(action);
+
+        void OnValidate()
         {
-            _activeActions.Add(action);
+            foreach (var action in Actions)
+                ActionPool.Add(new AbilityHandler(this, action));
         }
     }
 }

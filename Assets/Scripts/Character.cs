@@ -10,5 +10,4 @@ public class Character : ScriptableObject
     public float sidestepSpeed;
     public float turnSpeed;
     public float acceleration;
-    public Actor actor;
 }

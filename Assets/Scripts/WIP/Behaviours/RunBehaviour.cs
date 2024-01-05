@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WIP.Behaviours
 {
-    [Serializable]
+    [CreateAssetMenu(fileName = "New Behaviour", menuName = "Behaviours/RunBehaviour")]
     public class RunBehaviour : AbilityBehaviour
     {
         Transform _transform;
