@@ -1,7 +1,9 @@
-﻿using Actions_Stuff;
+﻿using System;
+using Actions_Stuff;
 using UnityEngine;
 using WIP;
 
+[Serializable]
 [CreateAssetMenu(fileName = "New Character", menuName = "Character")]
 public class Character : ScriptableObject
 {

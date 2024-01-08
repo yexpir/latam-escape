@@ -10,10 +10,11 @@ namespace WIP.Behaviours
         Transform _transform;
         float _speed;
 
-        public RunBehaviour(Transform transform, float speed)
-        {
-            _transform = transform;
-            _speed = speed;
+        public override void SetActor(Actor actor)
+        { 
+            Debug.Log(actor + "RUUUNNN!!!");
+            _transform = actor.gameObject.transform;
+            _speed = actor.Character.travelSpeed;
         }
         
         public override IEnumerator Execute()

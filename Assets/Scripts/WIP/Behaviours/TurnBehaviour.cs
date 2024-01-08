@@ -11,11 +11,10 @@ namespace WIP.Behaviours
         float _speed;
         [SerializeField] int _direction;
 
-        public TurnBehaviour(Transform transform, float speed, int direction)
+        public override void SetActor(Actor actor)
         {
-            _transform = transform;
-            _speed = speed;
-            _direction = direction;
+            _transform = actor.transform;
+            _speed = actor.Character.travelSpeed;
         }
 
         public void SetDirection(int direction) => _direction = direction;

@@ -15,7 +15,6 @@ namespace WIP
         
         public Coroutine coroutine;
 
-
         public int ID => _ability.id;
         public string AbilityName => _ability.abilityName;
         public string Description => _ability.description;
@@ -24,6 +23,7 @@ namespace WIP
         {
             _actor = actor;
             _ability = ability;
+            _ability.behaviour.SetActor(_actor);
         }
 
         public void SetActor(Actor actor) => _actor = actor;
