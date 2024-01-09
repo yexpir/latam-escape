@@ -28,5 +28,13 @@ namespace WIP
                     AbilityPool.Add(new AbilityHandler(this, ability));
             }
         }
+        void OnEnable(){
+            AbilityPool.Clear();
+            foreach (var ability in Abilities)
+            {
+                if(ability != null)
+                    AbilityPool.Add(new AbilityHandler(this, ability));
+            }
+        }
     }
 }
