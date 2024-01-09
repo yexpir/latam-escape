@@ -11,7 +11,7 @@ namespace WIP
     public class AbilityHandler
     {
         Actor _actor;
-        Ability _ability;
+        public Ability _ability;
         
         public Coroutine coroutine;
 
@@ -22,8 +22,8 @@ namespace WIP
         public AbilityHandler(Actor actor, Ability ability)
         {
             _actor = actor;
+            ability.behaviour.SetActor(_actor);
             _ability = ability;
-            _ability.behaviour.SetActor(_actor);
         }
 
         public void SetActor(Actor actor) => _actor = actor;

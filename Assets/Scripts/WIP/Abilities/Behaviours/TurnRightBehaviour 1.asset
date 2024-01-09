@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a16244ad03d4d9d856b2dae32cc39c8, type: 3}
-  m_Name: TurnLeft
+  m_Script: {fileID: 11500000, guid: 7fcadbebd1834131aa6f83958e236b57, type: 3}
+  m_Name: TurnRightBehaviour 1
   m_EditorClassIdentifier: 
-  id: 1
-  abilityName: TurnLeft
-  description: 
-  behaviour: {fileID: 11400000, guid: b0ceb4cae90a4534682c46afc013e3a6, type: 2}
+  _direction: 1

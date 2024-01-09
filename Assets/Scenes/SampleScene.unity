@@ -1976,5 +1976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0594f5426a3a4b34951fd91e83c3e2eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Actions:
+  Character: {fileID: 11400000, guid: eb27004bf9c90e3428a528880b3a51df, type: 2}
+  Abilities:
   - {fileID: 11400000, guid: 36c416aff330b324f88c9a3646e5b2f1, type: 2}
+  - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
+  - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}

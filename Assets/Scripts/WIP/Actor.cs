@@ -6,28 +6,27 @@ namespace WIP
 {
     public class Actor : MonoBehaviour
     {
-        [field:SerializeField]public Character Character { get; }
-        [field:SerializeField]private List<Ability> Actions = new();
+        public Character Character;
+        [field:SerializeField]private List<Ability> Abilities = new();
 
 
 
-        protected HashSet<AbilityHandler> ActionPool = new();
-        protected HashSet<AbilityHandler> ActiveActions => ActionPool.Where(a => a.coroutine != null).ToHashSet();
+        protected List<AbilityHandler> AbilityPool = new();
+        protected List<AbilityHandler> ActiveAbilities => AbilityPool.Where(a => a.coroutine != null).ToList();
 
 
 
-        public void AddActiveAction(AbilityHandler action) => ActiveActions.Add(action);
-        public void RemoveActiveAction(AbilityHandler action) => ActiveActions.Remove(action);
-
-
+        public void AddActiveAction(AbilityHandler action) => ActiveAbilities.Add(action);
+        public void RemoveActiveAction(AbilityHandler action) => ActiveAbilities.Remove(action);
 
         void OnValidate()
         {
-            ActionPool.Clear();
-            foreach (var action in Actions)
+            AbilityPool.Clear();
+            foreach (var ability in Abilities)
             {
-                print(this + "   " + action);
-            }                
+                if(ability != null)
+                    AbilityPool.Add(new AbilityHandler(this, ability));
+            }
         }
     }
 }

@@ -11,16 +11,12 @@ namespace WIP.Behaviours
         float _speed;
         [SerializeField] int _direction;
 
-        public override void SetActor(Actor actor)
-        {
-            _transform = actor.transform;
-            _speed = actor.Character.travelSpeed;
-        }
-
         public void SetDirection(int direction) => _direction = direction;
         
         public override IEnumerator Execute()
         {
+            _transform = _actor.transform;
+            _speed = _actor.Character.travelSpeed;
             var rotationPoint = _transform.position + _transform.right * (CityBuilder.stepsideSize * _direction);
             while (true)
             {
