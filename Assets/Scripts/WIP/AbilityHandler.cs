@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Actions_Stuff;
-using TMPro;
-using Unity.VisualScripting.FullSerializer;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace WIP
@@ -10,55 +9,103 @@ namespace WIP
     [Serializable]
     public class AbilityHandler
     {
-        Actor _actor;
-        public Ability _ability;
+        public Actor Actor {get; private set;}
+        [field:SerializeField]public Ability Ability {get; private set;}
+
+        public string AbilityName => Ability.abilityName;
+        public string Description => Ability.description;
         
         public Coroutine coroutine;
 
-        public AbilityState state;
+        [HideInInspector]public AbilityState state;
         public bool IsActive => state == AbilityState.Active;
-        public int ID => _ability.id;
-        public string AbilityName => _ability.abilityName;
-        public string Description => _ability.description;
+        public int ID => Ability.id;
 
-        public AbilityHandler(Actor actor, Ability ability)
-        {
-            _actor = actor;
-            ability.behaviour.SetActor(_actor);
-            _ability = ability;
+        public List<Ability> blockers = new();
+        public List<Ability> bufferers = new();
+        public List<Ability> cancellables = new();
+        public List<Ability> interruptables = new();
+
+        HashSet<AbilityHandler> ActiveBlockers => Actor.ActiveAbilities.Where(h => blockers.Any(a => h.Ability.Equals(a))).ToHashSet();
+        HashSet<AbilityHandler> ActiveBufferers => Actor.ActiveAbilities.Where(h => bufferers.Any(a => h.Ability.Equals(a))).ToHashSet();
+        HashSet<AbilityHandler> ActiveCancellables => Actor.ActiveAbilities.Where(h => cancellables.Any(a => h.Ability.Equals(a))).ToHashSet();
+        HashSet<AbilityHandler> ActiveInterruptables => Actor.ActiveAbilities.Where(h => interruptables.Any(a => h.Ability.Equals(a))).ToHashSet();
+        
+        public void Init(Actor actor){
             state = AbilityState.Inactive;
+            Actor = actor;
+            Ability.behaviour.SetActor(Actor);
         }
 
-        public void SetActor(Actor actor) => _actor = actor;
-        public void SetAbility(Ability ability) => _ability = ability;
+        public void SetAbility(Ability ability) => Ability = ability;
         
-
         public void Play()
         {
-            _ability.behaviour.Reset();
-            coroutine = _actor.StartCoroutine(_ability.behaviour.Execute());
-            _actor.AddActiveAction(this);
+            Ability.behaviour.Reset();
+            Actor.StartCoroutine(HandleAbilityInteractions());
+            coroutine = Actor.StartCoroutine(Ability.behaviour.Execute());
+            Actor.AddActiveAction(this);
             state = AbilityState.Active;
         }
 
         public void Pause()
         {
-            _ability.behaviour.Pause();
+            Ability.behaviour.Pause();
             state = AbilityState.Waiting;
         }
 
         public void Resume()
         {
-            _ability.behaviour.Resume();
+            Ability.behaviour.Resume();
             state = AbilityState.Active;
         }
         public void Stop()
         {
-            //_actor.StopCoroutine(coroutine);
-            _ability.behaviour.Stop();
+            Ability.behaviour.Stop();
             coroutine = null;
-            _actor.RemoveActiveAction(this);
+            Actor.RemoveActiveAction(this);
             state = AbilityState.Inactive;
+            ResumeInterruptables();
+        }
+
+
+        public IEnumerator HandleAbilityInteractions()
+        {
+            Debug.Log(AbilityName + " INTERACTION");
+            if(ActiveBlockers.Any())
+            {
+                Debug.Log(AbilityName + " has active blockers");
+                Stop();
+                yield break;
+            }
+
+            while(ActiveBufferers.Any())
+            {
+                Debug.Log(AbilityName + " has active bufferers");
+                Pause();
+                yield return null;
+            }
+            Resume();
+            
+            foreach(AbilityHandler cancellable in ActiveCancellables)
+            {
+                Debug.Log(AbilityName + " cancells " + cancellable.AbilityName);
+                cancellable.Stop();
+            }
+            foreach(AbilityHandler interruptable in ActiveInterruptables)
+            {
+                Debug.Log(AbilityName + " interrupts " + interruptable.AbilityName);
+                interruptable.Pause();
+            }
+        }
+
+        public void ResumeInterruptables()
+        {
+            foreach(AbilityHandler interruptable in ActiveInterruptables){
+                if(interruptable.IsActive){
+                    interruptable.Resume();
+                }
+            }
         }
     }
     public enum AbilityState{

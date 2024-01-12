@@ -19,7 +19,7 @@ public class CityBuilder : MonoBehaviour
     public static float cityLength;
     public static float blockUnit;
     public static float streetWidth;
-    public static float stepsideSize;
+    public static float sidestepSize;
     float offset;
     Vector3 startPosition = Vector3.zero;
     Vector3 spawnPosition;
@@ -34,7 +34,7 @@ public class CityBuilder : MonoBehaviour
         cityLength = setCityLength;
         blockUnit = setBlockUnit;
         streetWidth = setStreetWidth;
-        stepsideSize = setStreetWidth/3;
+        sidestepSize = setStreetWidth/3;
     }
 
     void Start()

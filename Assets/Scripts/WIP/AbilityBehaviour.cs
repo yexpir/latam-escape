@@ -17,6 +17,10 @@ namespace WIP
         public void Pause() => _isPaused = true;
         public void Resume() => _isPaused = false;
         public void Stop() => _isStopped = true;
-        public void Reset() => _isStopped = false;
+        public void Reset()
+        {
+            _isStopped = false;
+            _isPaused = false;
+        }
     }
 }

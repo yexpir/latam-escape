@@ -15,5 +15,5 @@ MonoBehaviour:
   characterName: 
   travelSpeed: 10
   sidestepSpeed: 4
-  turnSpeed: 10
+  turnSpeed: 5
   acceleration: 0.1

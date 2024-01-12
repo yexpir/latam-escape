@@ -94,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator Co_Turn(int direction)
     {
-        var rotationPoint = transform.position + transform.right * (CityBuilder.stepsideSize * direction);
+        var rotationPoint = transform.position + transform.right * (CityBuilder.sidestepSize * direction);
         while (true)
         {
             var linearDistance = speed * Time.deltaTime;

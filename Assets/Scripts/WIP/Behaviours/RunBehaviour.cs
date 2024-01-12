@@ -7,7 +7,7 @@ namespace WIP.Behaviours
     [CreateAssetMenu(fileName = "New Behaviour", menuName = "Behaviours/RunBehaviour")]
     public class RunBehaviour : AbilityBehaviour
     {
-        Transform _transform;
+        public Transform _transform;
         float _speed;
 
         public override IEnumerator Execute()
