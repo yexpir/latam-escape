@@ -178,18 +178,20 @@ MonoBehaviour:
   - <Ability>k__BackingField: {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2,
       type: 2}
     state: 0
-    blockers: []
-    bufferers: []
-    cancellables:
+    blockers:
+    - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
     - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}
+    bufferers: []
+    cancellables: []
     interruptables: []
   - <Ability>k__BackingField: {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec,
       type: 2}
     state: 0
-    blockers: []
-    bufferers: []
-    cancellables:
+    blockers:
     - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
+    - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}
+    bufferers: []
+    cancellables: []
     interruptables: []
 --- !u!1 &6675459797571791889
 GameObject:

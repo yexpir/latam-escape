@@ -16,8 +16,8 @@ namespace WIP.Behaviours
             _speed = _actor.Character.travelSpeed;
             while (_transform.gameObject.activeSelf)
             {
-                if (_isStopped) break;
-                while (_isPaused) yield return null;
+                if (IsStopped) break;
+                while (IsPaused) yield return null;
                 _transform.position += _transform.forward * (_speed * Time.deltaTime); 
                 yield return null;
             }

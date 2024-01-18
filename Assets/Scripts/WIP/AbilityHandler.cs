@@ -41,8 +41,10 @@ namespace WIP
         
         public void Play()
         {
-            Ability.behaviour.Reset();
+            Debug.Log("PLAY");
             Actor.StartCoroutine(HandleAbilityInteractions());
+            if(Ability.behaviour.IsBlocked) return;
+            Ability.behaviour.Reset();
             coroutine = Actor.StartCoroutine(Ability.behaviour.Execute());
             Actor.AddActiveAction(this);
             state = AbilityState.Active;
@@ -68,20 +70,32 @@ namespace WIP
             ResumeInterruptables();
         }
 
-
         public IEnumerator HandleAbilityInteractions()
         {
-            Debug.Log(AbilityName + " INTERACTION");
-            if(ActiveBlockers.Any())
+            var blocker = ActiveBlockers.FirstOrDefault();
+            if(blocker != null)
             {
-                Debug.Log(AbilityName + " has active blockers");
-                Stop();
-                yield break;
+                if(blocker != this)
+                {
+                    Stop();
+                    Ability.behaviour.Block();
+                    Debug.Log("BLOCKING DIFFERENT");
+                    yield break;
+                }
+                else
+                {
+                    Debug.Log("BLOCKING SELF");
+                    Ability.behaviour.Block();
+                    yield break;
+                }
+            }
+            else
+            {
+                Ability.behaviour.UnBlock();
             }
 
             while(ActiveBufferers.Any())
             {
-                Debug.Log(AbilityName + " has active bufferers");
                 Pause();
                 yield return null;
             }
@@ -89,12 +103,10 @@ namespace WIP
             
             foreach(AbilityHandler cancellable in ActiveCancellables)
             {
-                Debug.Log(AbilityName + " cancells " + cancellable.AbilityName);
                 cancellable.Stop();
             }
             foreach(AbilityHandler interruptable in ActiveInterruptables)
             {
-                Debug.Log(AbilityName + " interrupts " + interruptable.AbilityName);
                 interruptable.Pause();
             }
         }
