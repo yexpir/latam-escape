@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03a93a8c0b24022b72db0243c8a0312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  probability: 2
+  probability: 0
   cube: {fileID: 6830587790788214733}
 --- !u!1 &3489044313442182288
 GameObject:

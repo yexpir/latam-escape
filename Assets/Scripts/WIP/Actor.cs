@@ -8,8 +8,8 @@ namespace WIP
     {
         public Character Character;
         
-        [field:SerializeField]protected List<AbilityHandler> AbilityPool = new();
-        public List<AbilityHandler> ActiveAbilities => AbilityPool.Where(a => a.coroutine != null).ToList();
+        [field:SerializeField]protected List<AbilityHandler> AbilityPool = new(); 
+        public List<AbilityHandler> ActiveAbilities => AbilityPool.Where(a => a.state == AbilityState.Active).ToList();
 
         public void AddActiveAction(AbilityHandler action) => ActiveAbilities.Add(action);
         public void RemoveActiveAction(AbilityHandler action) => ActiveAbilities.Remove(action);

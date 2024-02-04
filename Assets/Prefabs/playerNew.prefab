@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 339465977371862066}
   - component: {fileID: 8731101767795925503}
   - component: {fileID: 3520581778480833649}
-  - component: {fileID: 7965150494048186519}
-  - component: {fileID: 2000473264447240321}
+  - component: {fileID: 449017317264042691}
   m_Layer: 0
   m_Name: playerNew
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -138,21 +137,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7965150494048186519
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3146760061343079434}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a629e72a98ddbcf488f7f408d3f01e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _data: {fileID: 11400000, guid: eb27004bf9c90e3428a528880b3a51df, type: 2}
-  speed: 10
---- !u!114 &2000473264447240321
+--- !u!114 &449017317264042691
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,38 +146,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3146760061343079434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0594f5426a3a4b34951fd91e83c3e2eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d24ac3823ad7ce46ab136a9a67b479a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 11400000, guid: eb27004bf9c90e3428a528880b3a51df, type: 2}
-  AbilityPool:
-  - <Ability>k__BackingField: {fileID: 11400000, guid: 36c416aff330b324f88c9a3646e5b2f1,
-      type: 2}
-    state: 0
-    blockers: []
-    bufferers:
-    - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
-    - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}
-    cancellables: []
-    interruptables: []
-  - <Ability>k__BackingField: {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2,
-      type: 2}
-    state: 0
-    blockers:
-    - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
-    - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}
-    bufferers: []
-    cancellables: []
-    interruptables: []
-  - <Ability>k__BackingField: {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec,
-      type: 2}
-    state: 0
-    blockers:
-    - {fileID: 11400000, guid: 26aa31b1065e3ae41aca6e34fcedb0f2, type: 2}
-    - {fileID: 11400000, guid: 4c820cd91af4a0645be233195e7d28ec, type: 2}
-    bufferers: []
-    cancellables: []
-    interruptables: []
+  _forwardSpeed: 15
+  _sideStepSpeed: 20
+  _sidestepSize: 5
+  _turnSpeed: 1
+  _acceleration: 1
+  _turnOriginForwardOffset: 2
+  _turnTargetForwardOffset: 3
+  _sideStepOriginForwardOffset: 0
+  _sidestepTargetForwardOffset: 0
 --- !u!1 &6675459797571791889
 GameObject:
   m_ObjectHideFlags: 0

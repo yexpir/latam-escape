@@ -136,6 +136,35 @@ PrefabInstance:
       propertyPath: setBlockUnit
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 7445206533618899029, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
+        type: 3}
+      propertyPath: blockPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445206533618899029, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
+        type: 3}
+      propertyPath: blockPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: -3648391283690777325, guid: 829836edac287c749bc093cc34940c85,
+        type: 3}
+    - target: {fileID: 7445206533618899029, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
+        type: 3}
+      propertyPath: blockPrefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 6671560096445256122, guid: dd98b350e968ba14fbbbafecde4b2f87,
+        type: 3}
+    - target: {fileID: 7445206533618899029, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
+        type: 3}
+      propertyPath: blockPrefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 8423027765711675373, guid: 64bca70d8b65b794cae53a8f0712b5ed,
+        type: 3}
+    - target: {fileID: 7445206533618899029, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
+        type: 3}
+      propertyPath: blockPrefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: -4636877918106343904, guid: 0a478882b8bdf324590d0a58d9998b80,
+        type: 3}
     - target: {fileID: 8089418877406434311, guid: d5b81abc45cdd8e42b4212cbe57f9b95,
         type: 3}
       propertyPath: m_RootOrder
@@ -856,7 +885,7 @@ GameObject:
   - component: {fileID: 831570092}
   - component: {fileID: 831570093}
   m_Layer: 0
-  m_Name: SpawnManager
+  m_Name: PlayerSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1078,6 +1107,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 959234827}
   m_CullTransparentMesh: 1
+--- !u!1001 &1151637816
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1498403948531744, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_Name
+      value: GoldCoin
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4244701375105762, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa2c57d3f28a5e6419393e8bc3eeb32a, type: 3}
 --- !u!1 &1441850046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,9 +1489,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 831570092}
   - {fileID: 1441850047}
   - {fileID: 459334179}
+  - {fileID: 831570092}
+  - {fileID: 1811882727}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1603,6 +1694,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1811882726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1811882727}
+  - component: {fileID: 1811882728}
+  m_Layer: 0
+  m_Name: CoinSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1811882727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811882726}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1517211688}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1811882728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811882726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3271866c6b4ebc94fa1d53874178406c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _coinPrefab: {fileID: -3249492300241961234, guid: fa2c57d3f28a5e6419393e8bc3eeb32a,
+    type: 3}
+  spawnRadius: 20
+  coinDensity: 100
 --- !u!1 &2124237736
 GameObject:
   m_ObjectHideFlags: 0

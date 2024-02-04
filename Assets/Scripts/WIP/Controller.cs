@@ -22,16 +22,14 @@ namespace WIP
             if(Input.GetKeyDown(KeyCode.RightArrow)){
                 AbilityPool[2].Play();
             }
-            //activeAbilities = AbilityPool.Where(a => a.coroutine != null).ToList();
+            activeAbilities = AbilityPool.Where(a => a.state == AbilityState.Active).ToList();
             var line1 = "";
-            var line2 = "";
-            foreach (var ability in AbilityPool)
+            foreach (var ability in activeAbilities)
             {
                 line1 += "-----" + ability.AbilityName + "-----";
-                line2 += "-----" + ability.state + "-----";
             }
 
-            //print("\n" + line1 + "\n" + line2);
+            //print(line1);
         }
     }
 }

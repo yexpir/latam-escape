@@ -150,5 +150,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03a93a8c0b24022b72db0243c8a0312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  probability: 4
+  probability: 0
   cube: {fileID: 6636580343066833996}

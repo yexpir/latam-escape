@@ -18,7 +18,7 @@ namespace WIP
         public Coroutine coroutine;
 
         [HideInInspector]public AbilityState state;
-        public bool IsActive => state == AbilityState.Active;
+        public bool IsActive => state != AbilityState.Inactive;
         public int ID => Ability.id;
 
         public List<Ability> blockers = new();
@@ -39,16 +39,16 @@ namespace WIP
 
         public void SetAbility(Ability ability) => Ability = ability;
         
-        public void Play()
+        public IEnumerator Co_Play()
         {
-            Debug.Log("PLAY");
-            Actor.StartCoroutine(HandleAbilityInteractions());
-            if(Ability.behaviour.IsBlocked) return;
+            yield return Actor.StartCoroutine(HandleAbilityInteractions());
+            if(Ability.behaviour.IsBlocked) yield break;
             Ability.behaviour.Reset();
             coroutine = Actor.StartCoroutine(Ability.behaviour.Execute());
             Actor.AddActiveAction(this);
             state = AbilityState.Active;
         }
+        public void Play() => Actor.StartCoroutine(Co_Play());
 
         public void Pause()
         {
@@ -72,6 +72,7 @@ namespace WIP
 
         public IEnumerator HandleAbilityInteractions()
         {
+            //HANDLE BLOCKERS
             var blocker = ActiveBlockers.FirstOrDefault();
             if(blocker != null)
             {
@@ -79,12 +80,10 @@ namespace WIP
                 {
                     Stop();
                     Ability.behaviour.Block();
-                    Debug.Log("BLOCKING DIFFERENT");
                     yield break;
                 }
                 else
                 {
-                    Debug.Log("BLOCKING SELF");
                     Ability.behaviour.Block();
                     yield break;
                 }
@@ -94,20 +93,30 @@ namespace WIP
                 Ability.behaviour.UnBlock();
             }
 
-            while(ActiveBufferers.Any())
-            {
-                Pause();
-                yield return null;
-            }
+            //HANDLE BUFFERERS
+            if(ActiveBufferers.Any()) Pause();
+
+            foreach(AbilityHandler a in ActiveBufferers) a.Ability.behaviour.RequestEnd();
+
+            while(ActiveBufferers.Any()) yield return null;
             Resume();
             
+            //HANDLE CANCELLABLES
             foreach(AbilityHandler cancellable in ActiveCancellables)
             {
                 cancellable.Stop();
             }
+
+            //HANDLE INTERUPTABLES
             foreach(AbilityHandler interruptable in ActiveInterruptables)
             {
+                Debug.Log(interruptable.AbilityName);
                 interruptable.Pause();
+            }
+
+            while (ActiveInterruptables.Any())
+            {
+                yield return null;
             }
         }
 

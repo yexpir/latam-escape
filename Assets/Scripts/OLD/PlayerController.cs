@@ -1,8 +1,12 @@
 using System.Collections;
+using System;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
     [SerializeField] float _forwardSpeed;
     [SerializeField] float _sideStepSpeed;
     [SerializeField] float _sidestepSize;
@@ -19,6 +23,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _sideStepOriginForwardOffset;
     [SerializeField] float _sidestepTargetForwardOffset;
 
+    public Vector3 Position => transform.position;
+
     Vector3 TurnRayOrigin => transform.position + transform.forward * _turnOriginForwardOffset;
     Vector3 TurnRayTarget;
     Vector3 SidestepRayOrigin => transform.position + transform.forward * _sideStepOriginForwardOffset;
@@ -26,6 +32,16 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
+
         transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
         
         if(_isSideSteping) return;
@@ -103,19 +119,20 @@ public class PlayerController : MonoBehaviour
         var isInZ = IsMovingAlongZ;
         var forwardValue = isInZ ? transform.position.z : transform.position.x;
         float girdForwardValue;
+        
         if (isInZ && transform.forward.z > 0 || !isInZ && transform.forward.x > 0)
             girdForwardValue = Mathf.Ceil(forwardValue / _sidestepSize) * _sidestepSize;
         else
             girdForwardValue = Mathf.Floor(forwardValue / _sidestepSize) * _sidestepSize;
-
+        
         do
         {
             forwardValue = isInZ ? transform.position.z : transform.position.x;
             yield return null;
         } while (forwardValue < girdForwardValue);
         
-        var startPosition = isInZ ? 
-            new Vector3(transform.position.x, transform.position.y, girdForwardValue) : 
+        var startPosition = isInZ ?
+            new Vector3(transform.position.x, transform.position.y, girdForwardValue) :
             new Vector3(girdForwardValue, transform.position.y, transform.position.z);
         transform.position = startPosition;
         
@@ -130,6 +147,7 @@ public class PlayerController : MonoBehaviour
                 new Vector3(Mathf.Lerp(startPosition.x, targetDistance, time), transform.position.y, transform.position.z);
             
             time += Time.deltaTime * _turnSpeed;
+            _turnSpeed += Time.deltaTime * _acceleration;
             
             yield return null;
         }
@@ -137,24 +155,39 @@ public class PlayerController : MonoBehaviour
         transform.position = isInZ ? 
             new Vector3(transform.position.x, transform.position.y, Mathf.Lerp(startPosition.z, targetDistance, 1)) : 
             new Vector3(Mathf.Lerp(startPosition.x, targetDistance, 1), transform.position.y, transform.position.z);
-        
+
         _isTurning = false;
     }
 
     bool IsMovingAlongZ => Mathf.Abs(transform.right.x) > Mathf.Abs(transform.right.z);
 
-    bool CanTurn(int dir)
-    {
-        TurnRayTarget = GetTurnRayTarget(dir);
-        var direction = (TurnRayTarget - TurnRayOrigin).normalized;
-        return !Physics.Raycast(TurnRayOrigin, direction, CityBuilder.streetWidth, Block.layerMask);
-    }
+    //bool CanTurn(int dir)
+    //{
+    //    TurnRayTarget = GetTurnRayTarget(dir);
+    //    var direction = (TurnRayTarget - TurnRayOrigin).normalized;
+    //    return !Physics.Raycast(TurnRayOrigin, direction, CityBuilder.streetWidth, Block.layerMask);
+    //}
+
+    //bool CanSidestep(int dir)
+    //{
+    //    SidestepRayTarget = GetSidestepRayTarget(dir);
+    //    var direction = (SidestepRayTarget - SidestepRayOrigin).normalized;
+    //    return !CanTurn(dir) && !Physics.Raycast(SidestepRayOrigin, direction, _sidestepSize + 1, Block.layerMask);
+    //}
 
     bool CanSidestep(int dir)
     {
-        SidestepRayTarget = GetSidestepRayTarget(dir);
-        var direction = (SidestepRayTarget - SidestepRayOrigin).normalized;
-        return !CanTurn(dir) && !Physics.Raycast(SidestepRayOrigin, direction, _sidestepSize + 1, Block.layerMask);
+        Collider[] results = new Collider[1];
+        var any = Physics.OverlapSphereNonAlloc(GetSidestepTarget(dir), 0f, results, Block.layerMask);
+        return any == 0;
+    }
+    bool CanTurn(int dir)
+    {
+        return !Physics.Raycast(Grid.GetNextPosition(transform.position, transform.forward), transform.right*dir, CityBuilder.streetWidth, Block.layerMask);
+    }
+    Vector3 GetSidestepTarget(int dir)
+    {
+        return Grid.GetNextPosition(transform.position, transform.forward) + transform.right * _sidestepSize * dir;
     }
 
     Vector3 GetTurnRayTarget(int dir) => TurnRayOrigin + transform.forward * _turnTargetForwardOffset + transform.right * (dir * CityBuilder.streetWidth);
@@ -169,10 +202,14 @@ public class PlayerController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(1));
-        Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(-1));
+        //Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(1));
+        //Gizmos.DrawLine(TurnRayOrigin, GetTurnRayTarget(-1));
+        //Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(1));
+        //Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(-1));
+        Gizmos.DrawWireSphere(GetSidestepTarget(1), 1);
+        Gizmos.DrawWireSphere(GetSidestepTarget(-1), 1);
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(1));
-        Gizmos.DrawLine(SidestepRayOrigin, GetSidestepRayTarget(-1));
+        Gizmos.DrawLine(GetSidestepTarget(1), GetSidestepTarget(1) + transform.right * CityBuilder.streetWidth);
+        Gizmos.DrawLine(GetSidestepTarget(-1), GetSidestepTarget(-1) - transform.right * CityBuilder.streetWidth);
     }
 }

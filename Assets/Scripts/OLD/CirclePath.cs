@@ -3,7 +3,7 @@ using UnityEngine.Splines;
 
 public class CirclePath : Path
 {
-    float Stepsize => CityBuilder.sidestepSize;
+    float Stepsize => CityBuilder.cellSize;
     float tanInHandle => 0.5519150244935105707435627f;
 
     Transform _target;
@@ -25,5 +25,5 @@ public class CirclePath : Path
         Spline.Closed = true;
     }
 
-    public override float GetTotalDistance() => 1 * Mathf.PI * CityBuilder.sidestepSize;
+    public override float GetTotalDistance() => 1 * Mathf.PI * CityBuilder.cellSize;
 }

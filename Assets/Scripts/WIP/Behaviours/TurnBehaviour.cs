@@ -64,8 +64,7 @@ namespace WIP.Behaviours
             _transform = _actor.transform;
             _speed = _actor.Character.turnSpeed;
 
-            var radius = CityBuilder.sidestepSize;
-            var direction = _direction;
+            var radius = CityBuilder.cellSize;
             var time = 0.0f;
 
             var rotationPoint = _transform.position + _transform.right * (radius * _direction);
@@ -87,7 +86,7 @@ namespace WIP.Behaviours
                 }
 
                 var nextPos = rotationPoint;
-                var radian = time+circumferenceStep * facingDir;
+                var radian = time + circumferenceStep * facingDir;
 
                 nextPos.x += Mathf.Sin(radian) * radius;
                 nextPos.z += Mathf.Cos(radian) * radius;

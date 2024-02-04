@@ -11,11 +11,11 @@ namespace WIP
     {
         protected Actor _actor;
 
-        public bool IsPaused { get; private set; }
-        public bool IsStopped { get; private set; }
-        public bool IsBlocked { get; private set; }
+        public bool IsPaused { get; protected set; }
+        public bool IsStopped { get; protected set; }
+        public bool IsBlocked { get; protected set; }
         public  bool _hasEnded;
-        public bool HasEnded 
+        public bool HasEnded
         { 
             get
             {
@@ -26,20 +26,30 @@ namespace WIP
                 _hasEnded = value;
                 if(!value) return;
                 var a = _actor.ActiveAbilities.FirstOrDefault(a => a.Ability.behaviour == this);
-                if(a != null) a.Stop();
+                a?.Stop();
             }
         }
+
+        public bool IsPausing{ get; protected set; }
+        public bool IsStopping{ get; protected set; }
+        public bool IsEnding { get; protected set; }
 
         public void SetActor(Actor actor) => _actor = actor;
         
         public abstract IEnumerator Execute();
-        public void Pause() => IsPaused = true;
-        public void Resume() => IsPaused = false;
-        public void Stop() => IsStopped = true;
+        public virtual void Pause() => IsPaused = true;
+        public virtual void Resume() => IsPaused = false;
+        public virtual void Stop() => IsStopped = true;
         public void Reset()
         {
             IsStopped = false;
             IsPaused = false;
+            IsBlocked = false;
+            HasEnded = false;
+
+            IsPausing = false;
+            IsStopping = false;
+            IsEnding = false;
         }
 
         public void Block(){
@@ -47,6 +57,11 @@ namespace WIP
         }
         public void UnBlock(){
             IsBlocked = false;
+        }
+
+        public virtual void RequestEnd()
+        {
+            IsEnding = true;
         }
     }
 }

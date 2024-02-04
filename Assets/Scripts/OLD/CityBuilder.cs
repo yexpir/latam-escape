@@ -6,27 +6,32 @@ using Random = UnityEngine.Random;
 
 public class CityBuilder : MonoBehaviour
 {
-    public List<Block> blocksPrefabs = new();
-    List<Block> blocksValid = new();
+    public List<Block> blockPrefabs = new();
+    List<Block> validBlocks = new();
+
+    [SerializeField] LayerMask layerMask;
+
     [SerializeField] bool randomSeed;
-    [SerializeField] int seed;
+    [SerializeField] int manualSeed;
+
     [SerializeField] float setCityWidth;
     [SerializeField] float setCityLength;
     [SerializeField] float setBlockUnit;
     [SerializeField] float setStreetWidth;
-    [SerializeField] float setSidesetSize;
+    [SerializeField] float setCellSize;
+
     public static float cityWidth;
     public static float cityLength;
     public static float blockUnit;
     public static float streetWidth;
-    public static float sidestepSize;
+    public static float cellSize;
+
     float offset;
     Vector3 startPosition = Vector3.zero;
     Vector3 spawnPosition;
-    [SerializeField] LayerMask layerMask;
 
 
-    Vector3[] spheres = new Vector3[4];
+    readonly Vector3[] checkers = new Vector3[4];
 
     void Awake()
     {
@@ -34,41 +39,42 @@ public class CityBuilder : MonoBehaviour
         cityLength = setCityLength;
         blockUnit = setBlockUnit;
         streetWidth = setStreetWidth;
-        sidestepSize = setStreetWidth/3;
+        cellSize = setStreetWidth/3;
     }
 
     void Start()
     {
-        offset = setBlockUnit + streetWidth;
+        if (randomSeed) manualSeed = Random.Range(100000, 1000000);
+        Random.InitState(manualSeed);
+
+        offset = blockUnit + streetWidth;
         setCityWidth *= offset;
         setCityLength *= offset;
-        if (randomSeed) seed = Random.Range(100000, 1000000);
-        Random.InitState(seed);
 
-        var longUnit = streetWidth + setBlockUnit * 2;
-        var pivotOffset = (longUnit - setBlockUnit) / 2;
+        var longUnit = streetWidth + blockUnit * 2;
+        var pivotOffset = (longUnit - blockUnit) / 2;
+
         startPosition.x = pivotOffset;
         startPosition.z = pivotOffset;
         spawnPosition = startPosition;
+
         foreach (var block in (Blocks[]) Enum.GetValues(typeof(Blocks)))
         {
+            var b = blockPrefabs[(int)block];
+            b.Init(blockUnit, longUnit, pivotOffset);
             switch (block)
             {
                 case Blocks.Reg :
-                    blocksPrefabs[(int) block].cube.localScale = new Vector3(setBlockUnit, setBlockUnit, setBlockUnit);
-                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(0, setBlockUnit / 2, 0);
+                    b.Regular();
                     break;
                 case Blocks.Big :
-                    blocksPrefabs[(int) block].cube.localScale = new Vector3(longUnit, setBlockUnit, longUnit);
-                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(pivotOffset, setBlockUnit / 2, pivotOffset);
+                    b.Big();
                     break;
                 case Blocks.Hor :
-                    blocksPrefabs[(int) block].cube.localScale = new Vector3(longUnit, setBlockUnit, setBlockUnit);
-                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(pivotOffset, setBlockUnit / 2, 0);
+                    b.Horizontal();
                     break;
                 case Blocks.Ver :
-                    blocksPrefabs[(int) block].cube.localScale = new Vector3(setBlockUnit, setBlockUnit, longUnit);
-                    blocksPrefabs[(int) block].cube.localPosition = new Vector3(0, setBlockUnit / 2, pivotOffset);
+                    b.Vertical();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -82,17 +88,17 @@ public class CityBuilder : MonoBehaviour
         
         if (CanSpawnBlock(spawnPosition))
         {
-            var block = blocksValid[0];
+            var block = validBlocks[0];
 
             var max = 0;
-            foreach (var b in blocksValid)
+            foreach (var b in validBlocks)
             {
                 max += b.probability;
             }
 
             var rndNum = Random.Range(0, max);
             var prob = 0;
-            foreach (var b in blocksValid)
+            foreach (var b in validBlocks)
             {
                 prob += b.probability;
                 if (rndNum >= prob) continue;
@@ -112,34 +118,38 @@ public class CityBuilder : MonoBehaviour
             spawnPosition.x = startPosition.x;
             spawnPosition.z += offset;
         }
-    }
+    }   
     
     
     bool CanSpawnBlock(Vector3 pos)
     {
-        blocksValid.Clear();
+        validBlocks.Clear();
 
-        spheres[0] = pos;
-        spheres[1] = pos + Vector3.right * offset;
-        spheres[2] = pos + Vector3.forward * offset;
-        spheres[3] = pos + (Vector3.right + Vector3.forward) * offset;
+        SetAvailabilityCheckers(pos);
 
         for (var i = 0; i < 4; i++)
         {
-            if (Physics.CheckSphere(spheres[i], 5.0f, layerMask)) break;
-            blocksValid.Add(blocksPrefabs[i]);
+            if (checkers[3].x >= setCityWidth || checkers[3].z >= setCityLength) break;
+            if (Physics.CheckSphere(checkers[i], 5.0f, layerMask)) break;
+            validBlocks.Add(blockPrefabs[i]);
         }
-        return blocksValid.Any();
+        return validBlocks.Any();
     }
     
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         var shift = Vector3.up * 25;
-        Gizmos.DrawWireSphere(spheres[0] + shift, 5);
-        Gizmos.DrawWireSphere(spheres[1] + shift, 5);
-        Gizmos.DrawWireSphere(spheres[2] + shift, 5);
-        Gizmos.DrawWireSphere(spheres[3] + shift, 5);
+
+        foreach (var c in checkers)
+        Gizmos.DrawWireSphere(c + shift, 5);
+    }
+    void SetAvailabilityCheckers(Vector3 pos)
+    {
+        checkers[0] = pos;
+        checkers[1] = pos + Vector3.right * offset;
+        checkers[2] = pos + Vector3.forward * offset;
+        checkers[3] = pos + (Vector3.right + Vector3.forward) * offset;
     }
 }
 
