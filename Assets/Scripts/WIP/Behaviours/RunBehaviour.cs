@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Grid = WIP.Utils.Grid;
 
 namespace WIP.Behaviours
 {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Grid = WIP.Utils.Grid;
 
 public class CoinSpawner : MonoBehaviour
 {
