@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
             ResetCurrentScene();
         //_fps.text = (1 / Time.deltaTime).ToString();
         //_fps.text = _character.travelSpeed.ToString();
-        _fps.text = CoinSpawner.CoinCount.ToString();
+        _fps.text = "COINS: " + CoinSpawner.CoinCount;
     }
 
 

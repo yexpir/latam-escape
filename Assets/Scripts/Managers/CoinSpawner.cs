@@ -20,6 +20,7 @@ public class CoinSpawner : MonoBehaviour
         var cityWidth = CityBuilder.cityWidth * _unit;
         var cityLength = CityBuilder.cityLength * _unit;
         _zone = new Zone(Vector3.zero, (int)cityWidth, (int)cityLength);
+        CoinCount = 0;
         //PopulateCity();
     }
     float timer;
