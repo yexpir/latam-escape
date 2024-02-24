@@ -80,46 +80,41 @@ public class CityBuilder : MonoBehaviour
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        while (spawnPosition.z < setCityLength)
+        {
+            if (CanSpawnBlock(spawnPosition))
+            {
+                var block = validBlocks[0];
+
+                var max = validBlocks.Sum(b => b.probability);
+
+                var rndNum = Random.Range(0, max);
+                var prob = 0;
+                foreach (var b in validBlocks)
+                {
+                    prob += b.probability;
+                    if (rndNum >= prob) continue;
+                    block = b;
+                    break;
+                }
+
+                var newBlock = Instantiate(block, spawnPosition, Quaternion.identity, transform);
+                //newBlock.SetScale(Random.Range(0.5f, 1.0f));
+                newBlock.SetScale(1);
+                newBlock.SetRandomSolor();
+            }
+            
+            spawnPosition.x += offset;
+
+            if (spawnPosition.x >= setCityWidth)
+            {
+                spawnPosition.x = startPosition.x;
+                spawnPosition.z += offset;
+            }
+        }
     }
 
-    void Update()
-    {
-        if (spawnPosition.z > setCityLength) return;
-        
-        if (CanSpawnBlock(spawnPosition))
-        {
-            var block = validBlocks[0];
-
-            var max = 0;
-            foreach (var b in validBlocks)
-            {
-                max += b.probability;
-            }
-
-            var rndNum = Random.Range(0, max);
-            var prob = 0;
-            foreach (var b in validBlocks)
-            {
-                prob += b.probability;
-                if (rndNum >= prob) continue;
-                block = b;
-                break;
-            }
-
-            var newBlock = Instantiate(block, spawnPosition, Quaternion.identity, transform);
-            newBlock.SetScale(Random.Range(0.5f, 1.0f));
-            newBlock.SetColor(Random.ColorHSV());
-        }
-        
-        spawnPosition.x += offset;
-
-        if (spawnPosition.x >= setCityWidth)
-        {
-            spawnPosition.x = startPosition.x;
-            spawnPosition.z += offset;
-        }
-    }   
-    
     
     bool CanSpawnBlock(Vector3 pos)
     {
@@ -142,7 +137,7 @@ public class CityBuilder : MonoBehaviour
         var shift = Vector3.up * 25;
 
         foreach (var c in checkers)
-        Gizmos.DrawWireSphere(c + shift, 5);
+            Gizmos.DrawWireSphere(c + shift, 5);
     }
     void SetAvailabilityCheckers(Vector3 pos)
     {

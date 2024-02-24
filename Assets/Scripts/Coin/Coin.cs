@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class Coin : MonoBehaviour
     public float amp;
     public float freq;
     Vector3 position;
+
 
     void Update()
     {

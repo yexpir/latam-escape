@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class Block : MonoBehaviour
 {
     public int probability;
-    Material _material;
+    List<Material> _materials = new();
 
     public static LayerMask layerMask = 1<<8;
 
@@ -16,14 +18,27 @@ public class Block : MonoBehaviour
     float longUnit;
     float pivotOffset;
 
+    int _colorHash;
+
     void Awake()
     {
-        _material = GetComponentInChildren<Renderer>().material;
+        var renderers = GetComponentsInChildren<Renderer>();
+        foreach (var r in renderers)
+            _materials.Add(r.material);
+        
+        _colorHash = Shader.PropertyToID("_BaseColor");
     }
 
     public void SetColor(Color color)
     {
-        _material.color = color;
+        foreach (var m in _materials)
+            m.SetColor(_colorHash, color);
+    }
+
+    public void SetRandomSolor()
+    {
+        foreach (var m in _materials)
+            m.SetColor(_colorHash, Random.ColorHSV());
     }
 
     public void SetScale(float height)
@@ -44,12 +59,12 @@ public class Block : MonoBehaviour
     public void Regular()
     {
         cube.localScale = new Vector3(blockUnit, blockUnit, blockUnit);
-        cube.localPosition = new Vector3(0, blockUnit / 2, 0);
+        cube.localPosition = Vector3.zero;
     }
     public void Big()
     {
         cube.localScale = new Vector3(longUnit, blockUnit, longUnit);
-        cube.localPosition = new Vector3(pivotOffset, blockUnit / 2, pivotOffset);
+        cube.localPosition = new Vector3(pivotOffset, 0, pivotOffset);
     }
     public void Horizontal()
     {

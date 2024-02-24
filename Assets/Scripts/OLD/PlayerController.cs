@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using WIP.Utils;
@@ -28,8 +29,9 @@ namespace OLD
             get => _angle;
             set => _angle = M.Mod(value, 360f);
         } float _angle;
-    
 
+        float _forwardSpeedBase;
+        float _turnSpeedBase;
     
         void Awake()
         {
@@ -38,8 +40,11 @@ namespace OLD
             else
                 Instance = this;
             _turnSpeed *= 100;
+
+            _forwardSpeedBase = _forwardSpeed;
+            _turnSpeedBase = _turnSpeed;
         }
-    
+
         void OnValidate()
         {
             _angle = M.Mod(_angle, 360);
@@ -47,26 +52,8 @@ namespace OLD
 
         void Update()
         {
-            // Angle += Time.deltaTime * speed;
-            //     
-            // var radians = Angle * Mathf.Deg2Rad;
-            //
-            //
-            // var pos = transform.position;
-            // pos.x = Mathf.Cos(radians) * radius;
-            // pos.z = Mathf.Sin(radians) * radius;
-            //
-            // transform.position = pivot + pos;
-            // transform.rotation = Quaternion.Euler(0,-Angle,0);
-            //
-            //
-            // var startAngle = M.Mod(-Vector3.SignedAngle(Vector3.right, (transform.position - pivot).Flat().normalized, Vector3.up), 360f);
-            // var rotationVector = (transform.position - pivot).normalized;
-            // var startingAngle = M.Mod(Mathf.Atan2(rotationVector.z, rotationVector.x) * Mathf.Rad2Deg, 360);
-            // print(startAngle);
-        
-        
             transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
+            
             if(_isSideSteping) return;
             if (_isTurning) return;
         
@@ -75,8 +62,10 @@ namespace OLD
                 StartCoroutine(Turn(In.XInt));
                 StartCoroutine(SideStep(In.XInt));
             }
-        
-            _forwardSpeed += Time.deltaTime * _acceleration;
+
+            var accel = CoinSpawner.CoinCount * 0.1f;
+            _forwardSpeed = _forwardSpeedBase + accel;
+            _turnSpeed = _turnSpeedBase + accel;
         }
 
         Vector3 targetSidePos;
@@ -149,7 +138,7 @@ namespace OLD
 
             Angle = startingRotation;
         
-            Debug.Log($"START: {startingRotation} --- ANGLE: {Angle} --- TARGET: {targetRotation}", this);
+            //Debug.Log($"START: {startingRotation} --- ANGLE: {Angle} --- TARGET: {targetRotation}", this);
             while (M.IsInRange(Angle, startingRotation, targetRotation))
             {
                 Angle += Time.deltaTime * _turnSpeed * -dir;
@@ -172,8 +161,6 @@ namespace OLD
             //transform.rotation = Quaternion.Euler(transform.rotation.x, targetRotation, transform.rotation.z);
             transform.forward = targetForward;
 
-            _turnSpeed += _acceleration;
-            
             _isTurning = false;
         }
 
