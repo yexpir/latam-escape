@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Grid = WIP.Utils.Grid;
+using WIP.Utils;
 
 namespace WIP.Behaviours
 {
@@ -16,7 +16,7 @@ namespace WIP.Behaviours
         public override void Pause()
         {
             IsPausing = true;
-            _nextGridPos = Grid.GetNextPosition(_transform.position, _transform.forward);
+            _nextGridPos = GridUtil.GetNextPosition(_transform.position, _transform.forward);
         }
         public override void Resume()
         {
@@ -26,7 +26,7 @@ namespace WIP.Behaviours
         public override void RequestEnd(){
             base.RequestEnd();
             Debug.Log("END?");
-            _nextGridPos = Grid.GetNextPosition(_transform.position, _transform.forward);
+            _nextGridPos = GridUtil.GetNextPosition(_transform.position, _transform.forward);
         }
 
         public override IEnumerator Execute()
@@ -47,13 +47,13 @@ namespace WIP.Behaviours
                 var move = _transform.forward * (_speed * Time.deltaTime);
                 _transform.position += move;
 
-                if (IsPausing && Grid.HasPassedPosition(_transform, _nextGridPos))
+                if (IsPausing && GridUtil.HasPassedPosition(_transform, _nextGridPos))
                 {
                     _transform.position = _nextGridPos;
                     IsPaused = true;
                 }
 
-                if(IsEnding && Grid.HasPassedPosition(_transform, _nextGridPos))
+                if(IsEnding && GridUtil.HasPassedPosition(_transform, _nextGridPos))
                 {
                     _transform.position = _nextGridPos;
                     HasEnded = true;

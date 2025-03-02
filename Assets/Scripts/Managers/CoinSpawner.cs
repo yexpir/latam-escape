@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using OLD;
 using UnityEngine;
-using Grid = WIP.Utils.Grid;
+using WIP.Utils;
 
 public class CoinSpawner : MonoBehaviour
 {
@@ -67,7 +67,7 @@ public class CoinSpawner : MonoBehaviour
         var newPos = (Vector3)Random.insideUnitCircle * radius;
         newPos.z = newPos.y;
         newPos.y = 0; 
-        newPos = Grid.GetClosestStreetPosition(pos + newPos);
+        newPos = GridUtil.GetClosestStreetPosition(pos + newPos);
         if (coinPositions.Contains(newPos)) return null;
         coinPositions.Add(newPos);
         return newPos;

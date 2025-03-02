@@ -2,15 +2,15 @@ using UnityEngine;
 
 namespace WIP.Utils
 {
-    public static class Grid
+    public static class GridUtil
     {	
         static float CellSize => CityBuilder.cellSize;
         static int BlockSize => (int)(CityBuilder.blockUnit + CityBuilder.streetWidth);
 
-        public static Vector3 RoundtPosition(Vector3 position)
+        public static Vector3 RoundPosition(Vector3 position, float cellSize)
         {
-            position.x = Mathf.Round(position.x / CellSize) * CellSize;
-            position.z = Mathf.Round(position.z / CellSize) * CellSize;
+            position.x = Mathf.Round(position.x / cellSize) * cellSize;
+            position.z = Mathf.Round(position.z / cellSize) * cellSize;
             return position;
         }
 
@@ -52,12 +52,14 @@ namespace WIP.Utils
             return GetNextNthPosition(t.position, t.forward, n);
         }
 
-        public static Vector3 GetNextNthPosition(Vector3 currentPosition, Vector3 forwardDirection, int n)
+        public static Vector3 GetNextNthPosition(Vector3 position, Vector3 direction, int n) //cardinal direction
         {
-            var nextNth = currentPosition;
-            for (var i = 0; i < n; i++)
-                nextNth = GetNextPosition(nextNth, forwardDirection);
-            return nextNth;
+            // var nextNth = currentPosition;
+            // for (var i = 0; i < n; i++)
+            //     nextNth = GetNextPosition(nextNth, forwardDirection);
+            // return nextNth;
+            var nextPosition = position + direction.normalized * (CellSize * n);
+            return RoundToPoint(nextPosition, position);
         }
 
         public static bool HasPassedPosition(Transform movingTransform, Vector3 position)

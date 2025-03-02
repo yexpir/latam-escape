@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using WIP.Utils;
-using Grid = WIP.Utils.Grid;
 
 namespace OLD
 {
@@ -39,6 +37,7 @@ namespace OLD
                 Destroy(gameObject);
             else
                 Instance = this;
+            
             _turnSpeed *= 100;
 
             _forwardSpeedBase = _forwardSpeed;
@@ -55,7 +54,7 @@ namespace OLD
             transform.position += transform.forward * (_forwardSpeed * Time.deltaTime);
             
             if(_isSideSteping) return;
-            if (_isTurning) return;
+            if(_isTurning) return;
         
             if (In.RightPressed || In.LeftPressed)
             {
@@ -111,8 +110,6 @@ namespace OLD
                 }
                 transform.position = targetSidePos;
             }
-        
-        
             _isSideSteping = false;
         }
 
@@ -124,14 +121,14 @@ namespace OLD
             _isTurning = true;
 
             var startingPosition = transform.NextPosition();
-            var pivot = Grid.GetNextPosition(startingPosition, transform.right * dir);
+            var pivot = GridUtil.GetNextPosition(startingPosition, transform.right * dir);
             var startingRotation = GetStartAngle(pivot, startingPosition);
 
             var targetPosition = GetTurnTarget(dir);
             var targetRotation = M.Mod(startingRotation + 90f * -dir, 360f);
             var targetForward = transform.right * dir;
         
-            while (!Grid.HasPassedPosition(transform, startingPosition)) yield return null;
+            while (!GridUtil.HasPassedPosition(transform, startingPosition)) yield return null;
 
             transform.position = startingPosition;
             transform.rotation = Quaternion.Euler(transform.rotation.x, startingRotation, transform.rotation.z);
@@ -178,9 +175,9 @@ namespace OLD
 
         Vector3 GetTurnTarget(int dir)
         {
-            var startPosition = Grid.GetNextPosition(transform.position, transform.forward);
-            var targetPosition = Grid.GetNextPosition(startPosition, transform.forward);
-            targetPosition = Grid.GetNextPosition(targetPosition, transform.right * dir);
+            var startPosition = GridUtil.GetNextPosition(transform.position, transform.forward);
+            var targetPosition = GridUtil.GetNextPosition(startPosition, transform.forward);
+            targetPosition = GridUtil.GetNextPosition(targetPosition, transform.right * dir);
             return targetPosition;
         }
     
@@ -192,18 +189,18 @@ namespace OLD
         void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(Grid.GetNextPosition(transform.position, transform.forward), 2);
+            Gizmos.DrawWireSphere(GridUtil.GetNextPosition(transform.position, transform.forward), 2);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(GetTurnTarget(1), 2);
             Gizmos.DrawWireSphere(GetTurnTarget(-1), 2);
             Gizmos.color = Color.yellow;
-            var rayFrom = Grid.GetNextPosition(Grid.GetNextPosition(transform.position, transform.forward), transform.forward);
+            var rayFrom = GridUtil.GetNextPosition(GridUtil.GetNextPosition(transform.position, transform.forward), transform.forward);
             var rayToVector = transform.right * CityBuilder.streetWidth;
             Gizmos.DrawLine(rayFrom, rayFrom + rayToVector * 1);
             Gizmos.DrawLine(rayFrom, rayFrom + rayToVector * -1);
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(Grid.GetNextPosition(transform.position, transform.right), 1.5f);
-            Gizmos.DrawWireSphere(Grid.GetNextPosition(transform.position, transform.right * -1), 1.5f);
+            Gizmos.DrawWireSphere(GridUtil.GetNextPosition(transform.position, transform.right), 1.5f);
+            Gizmos.DrawWireSphere(GridUtil.GetNextPosition(transform.position, transform.right * -1), 1.5f);
         }
     }
 }
