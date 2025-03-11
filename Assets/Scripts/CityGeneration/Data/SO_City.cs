@@ -9,6 +9,7 @@ namespace CityGeneration.Data
     {
         public SO_Map mapData;
         public SO_Perlin perlinData;
+        public SO_Block blockData;
         public Block blockPrefab;
         public Vector2 area;
         

@@ -52,7 +52,6 @@ namespace CityGeneration
         void Update()
         {
             PlayerPosition = mouse.transform.position;
-            //print(QuadData.vertices);
             if(HasEnteredNewCell())
             {
                 SpawnCityAroundPlayer();
@@ -75,7 +74,6 @@ namespace CityGeneration
 
         void SpawnCityAroundPlayer()
         {
-            //var correction = MapCalculator.ConvertValue % 2 == 0 ? Vector2.zero : Vector2.one / 2;
             var offset = _city.area/2;
             _areaEndpoints[0] = PlayerCell - offset;
             _areaEndpoints[1] = PlayerCell + _city.area - offset;

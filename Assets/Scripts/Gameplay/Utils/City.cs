@@ -10,6 +10,7 @@ namespace Gameplay.Utils
         
         public static SO_Map map => city.mapData;
         public static SO_Perlin perlin => city.perlinData;
+        public static SO_Block block => city.blockData;
         public static Block blockPrefab => city.blockPrefab;
         public static Vector2 area => city.area;
 

@@ -51,13 +51,9 @@ namespace CityGeneration
             return new Color(a, a, a);
         }
         
-        static Color GetRandomColor()
+        public static Color GetRandomColor()
         {
-            var r = Random.value;
-            var g = Random.value;
-            var b = Random.value;
-
-            return new Color(r, g, b);
+            return Color.HSVToRGB(Random.value, 1, Random.value);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CityGeneration.Data;
+using UnityEditor.Rendering.Universal.ShaderGUI;
+using UnityEngine;
 
 namespace CityGeneration
 {
@@ -8,6 +10,7 @@ namespace CityGeneration
         MeshFilter _meshFilter;
         MeshCollider _collider;
         MeshRenderer _renderer;
+        Material _material;
         float _height;
         Color _color;
         Texture2D _texture;
@@ -15,15 +18,18 @@ namespace CityGeneration
         public const int layerIndex = 8;
         public static LayerMask layerMask = 1<<layerIndex;
 
+        public bool ShowID;
+        static readonly int _emissiveColorID = Shader.PropertyToID("_EmissionColor");
+        const string _emissionKeyword = "_EMISSION";
+        
         void Awake()
         {
             _meshFilter = GetComponent<MeshFilter>();
             _collider = GetComponent<MeshCollider>();
             _renderer = GetComponent<MeshRenderer>();
+            _material = _renderer.material;
             gameObject.layer = layerIndex;
         }
-
-        public bool ShowID;
 
         void Update()
         {
@@ -39,7 +45,9 @@ namespace CityGeneration
             _meshFilter.sharedMesh = mesh;
             _collider.sharedMesh = mesh;
             _color = color;
-            _renderer.material.color = color;
+            _material.color = color;
+            _material.EnableKeyword(_emissionKeyword);
+            _material.SetColor(_emissiveColorID, color);
             _height = height;
             var scale = transform.localScale;
             scale.y = height;
