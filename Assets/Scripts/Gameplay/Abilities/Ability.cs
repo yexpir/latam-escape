@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gameplay.Utils;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay.Abilities
 {

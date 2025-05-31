@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using CityGeneration.Data;
+using CityStuff.GenerationStuff.BlockGenerationStuff.Mesh.Data;
 using UnityEngine;
 
 public class CellSizeDebug : MonoBehaviour

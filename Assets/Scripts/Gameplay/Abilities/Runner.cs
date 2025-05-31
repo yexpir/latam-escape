@@ -18,7 +18,7 @@ namespace Gameplay.Abilities
         void Update()
         {
             _moveSpeed += _acceleration;
-            transform.Move(transform.forward * (_moveSpeed * Time.deltaTime));
+            _character.Move(transform.forward * (_moveSpeed * Time.deltaTime));
         }
 
         public override void Init() => SetRaiser(PlayerController.OnRun);

@@ -3,7 +3,7 @@ using Gameplay.Abilities;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Grid = Gameplay.Utils.Grid;
+using Grid = Utils.Grid;
 
 public class GameManager : MonoBehaviour
 {

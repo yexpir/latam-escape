@@ -1,9 +1,9 @@
 using System.Collections;
 using Extensions;
 using Gameplay.InputHandling;
-using Gameplay.Utils;
 using UnityEngine;
-using Grid = Gameplay.Utils.Grid;
+using Utils;
+using Grid = Utils.Grid;
 
 namespace Gameplay.Abilities
 {
@@ -52,7 +52,7 @@ namespace Gameplay.Abilities
             
             if (nextDistance >= currDistance) IsActive = false;
             
-            if (IsActive) transform.Move(_movement);
+            if (IsActive) _character.Move(_movement);
             else transform.SetXorZ(_isMovingInZ, _target);
         }
 
@@ -104,7 +104,7 @@ namespace Gameplay.Abilities
 
         int GetNexLaneIndex(int direction)
         {
-            var nextIndex = _character.state.currentLaneIndex + (int) transform.right.Round().Max() * direction;
+            var nextIndex = _character.state.currentLaneIndex + Mathf.FloorToInt(transform.right.Round().Max()) * direction;
             return Mathf.Clamp(nextIndex, 0, City.map.laneCount - 1); 
         }
     }

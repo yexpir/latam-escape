@@ -1,31 +1,48 @@
-﻿using CityGeneration.Data;
+﻿using System;
+using CityStuff.GenerationStuff;
 using Extensions;
 using Gameplay.Data;
-using Gameplay.Utils;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay
 {
     [RequireComponent(typeof(SphereCollider))]
     public class Character : MonoBehaviour
     {
-        public readonly Raiser OnStreetCrossed = new();
+        public readonly Raiser OnOrientationChanged = new();
+        public readonly Raiser OnChunkCrossed = new();
+        public readonly Raiser OnIntersectionReached = new();
         
-        public CharacterState state;
         public SO_Player data;
-        public SO_Map map;
+        public CharacterState state;
         public new SphereCollider collider { get; private set; }
         
         public Transform pointer;
-        
-        void Awake() => collider = GetComponent<SphereCollider>();
 
-        void Start() => state = new CharacterState(this, pointer);
+        void OnEnable()
+        {
+            OnChunkCrossed.action += OnIntersectionReached.Raise;
+            OnOrientationChanged.action += OnIntersectionReached.Raise;
+        }
+
+        void Start()
+        {
+            collider = GetComponent<SphereCollider>();
+            state = new CharacterState(this, pointer);
+        }
+
+        void Update()
+        {
+        }
 
         void LateUpdate()
         {
-            if(state.HasEnteredNewBlock() || state.HasChangedOrientation())
-                OnStreetCrossed.Raise();
+            if (state.HasEnteredNewChunk())
+                OnChunkCrossed.Raise();
+            if (state.HasChangedOrientation())
+                OnOrientationChanged.Raise();
+            print(state.intersection);
         }
 
         public void SetRadius(float radius)

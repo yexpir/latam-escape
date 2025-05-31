@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Extensions
 {
@@ -17,5 +19,24 @@ namespace Extensions
         
         public static void SetX(this Vector2 vector, float newX) => vector.x = newX;
         public static void SetY(this Vector2 vector, float newY) => vector.y = newY;
+        
+        public static Vector2[] AddToAll(this Vector2[] array, Vector2 a)
+        {
+            return array.Select(v => v + a).ToArray();
+        }
+        
+        public static Vector2Int[] AddToAll(this IEnumerable<Vector2Int> array, Vector2Int a)
+        {
+            return array.Select(v => v + a).ToArray();
+        }
+
+        public static Vector2 Project(this Vector2 vector, Vector2 projector)
+        {
+            if (projector.x != 0.0f)
+                vector.x = projector.x;
+            if (projector.y != 0.0f)
+                vector.y = projector.y;
+            return vector;
+        }
     }
 }

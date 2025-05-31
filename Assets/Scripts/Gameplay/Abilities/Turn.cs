@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using CityGeneration;
+using CityStuff;
 using Extensions;
 using Gameplay.InputHandling;
-using Gameplay.Utils;
 using UnityEngine;
-using Grid = Gameplay.Utils.Grid;
+using Utils;
+using Grid = Utils.Grid;
 
 namespace Gameplay.Abilities
 {
@@ -53,18 +53,19 @@ namespace Gameplay.Abilities
         {
             _direction = In.xButton;
             _streetStart = Mathf.Round((City.map.totalLanesWidth / 2.0f + City.map.laneWidth) / City.map.cellSize) * City.map.cellSize;
-            _pivotOffset = -_character.state.forward * _streetStart + _character.state.right * (_direction * _streetStart);
+            _pivotOffset = -_character.state.currentForward * _streetStart + _character.state.currentRight * (_direction * _streetStart);
             
             var intersection = _character.state.intersection;
+            print($"INTERSECTION: {intersection}");
             var pivot = intersection + _pivotOffset;
-            var startingPosition = intersection - _character.state.forward * _streetStart;
+            var startingPosition = intersection - _character.state.currentForward * _streetStart;
             startingPosition = startingPosition.Project(_character.state.currentStreet.GetLane(_character.state.currentLaneIndex));
             
             var targetLaneIndex = _character.state.currentLaneIndex;
-            if (_character.state.forward.Abs() == Vector3.forward && _direction == 1 || _character.state.forward.Abs() == Vector3.right && _direction == -1)
+            if (_character.state.currentForward.Abs() == Vector3.forward && _direction == 1 || _character.state.currentForward.Abs() == Vector3.right && _direction == -1)
                 targetLaneIndex = _character.state.currentStreet.lanes.Length - (targetLaneIndex + 1);
             
-            var targetPosition = intersection + _character.state.right * (_direction * _streetStart);
+            var targetPosition = intersection + _character.state.currentRight * (_direction * _streetStart);
             targetPosition = targetPosition.Project(_character.state.nextStreet.GetLane(targetLaneIndex));
             
             //update intersection
@@ -72,12 +73,13 @@ namespace Gameplay.Abilities
             if (CityBuilder.IsInsideBlock(targetPosition))  
                 yield break;
 
-            var targetForward = _character.state.right * _direction;
+            var targetForward = _character.state.currentRight * _direction;
             
             Angle = GetStartAngle(pivot, startingPosition);
             
             var startingRotation = Angle;
             var targetRotation = M.Mod(startingRotation + 90f * -_direction, 360f);
+            
             pointers[0].position = pivot;
             pointers[1].position = startingPosition;
             pointers[2].position = targetPosition;
@@ -117,7 +119,7 @@ namespace Gameplay.Abilities
             }
             transform.SetXZ(targetPosition);
             transform.forward = targetForward;
-            _character.state.SetOrientation(transform);
+            _character.state.SetOrientation();
             _character.state.SetCurrentLaneIndex(targetLaneIndex);
             IsActive = false;
             _routine = null;

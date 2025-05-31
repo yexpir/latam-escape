@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Gameplay.Utils;
 using UnityEngine;
+using Utils;
 
 namespace Extensions
 {
@@ -139,9 +139,9 @@ namespace Extensions
         }
         public static Vector3 Ceil(this Vector3 vector, float roundUnit = 1)
         {
-            vector.x = (int)Mathf.Ceil(vector.x / roundUnit) * roundUnit;
-            vector.y = (int)Mathf.Ceil(vector.y / roundUnit) * roundUnit;
-            vector.z = (int)Mathf.Ceil(vector.z / roundUnit) * roundUnit;
+            vector.x = Mathf.CeilToInt(vector.x / roundUnit) * roundUnit;
+            vector.y = Mathf.CeilToInt(vector.y / roundUnit) * roundUnit;
+            vector.z = Mathf.CeilToInt(vector.z / roundUnit) * roundUnit;
             return vector;
         }
 

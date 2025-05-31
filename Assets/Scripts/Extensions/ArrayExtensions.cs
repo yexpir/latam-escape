@@ -22,7 +22,7 @@ namespace Extensions
         
         public static T Mirror<T>(this T[] array, int i)
         {
-            return array[array.Length - (i + 1)];
+            return array[^(i + 1)];
         }
 
         public static string ToPrint<T>(this IEnumerable<T> list)
@@ -35,7 +35,7 @@ namespace Extensions
             return list.Aggregate("", (current, e) => current + $"{e} ");
         }
         
-        static string ToPrintBinary(this IEnumerable<int> list)
+        public static string ToPrintBinary(this IEnumerable<int> list)
         {
             return list.Aggregate("", (current, t) => current + t.BitToString() + "\n");
         }

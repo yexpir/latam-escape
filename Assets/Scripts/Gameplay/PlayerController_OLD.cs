@@ -1,12 +1,13 @@
 using System.Collections;
-using CityGeneration;
-using CityGeneration.Data;
+using CityStuff;
+using CityStuff.ConfigurationStuff;
+using CityStuff.PoolStuff.PrefabStuff;
 using Extensions;
 using Gameplay.Data;
 using Gameplay.InputHandling;
-using Gameplay.Utils;
 using UnityEngine;
-using Grid = Gameplay.Utils.Grid;
+using Utils;
+using Grid = Utils.Grid;
 
 namespace Gameplay
 {

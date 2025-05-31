@@ -15,6 +15,8 @@ MonoBehaviour:
   mapData: {fileID: 11400000, guid: 2a5c7f18f3a2b8b44b151f63e6dccaf9, type: 2}
   perlinData: {fileID: 11400000, guid: 3e37dadd1c6ca9345b310a0d22c43ce0, type: 2}
   blockData: {fileID: 11400000, guid: ad7edf6cd05586b47aa6cd724347008a, type: 2}
+  spawnAreas: {fileID: 11400000, guid: d96ef33e4974f24478cdcf6d00524cba, type: 2}
+  worldObjectSet: {fileID: 11400000, guid: 2cf0d67ba2ca2f3439af74a04eafc7fa, type: 2}
   blockPrefab: {fileID: 3398735513206977187, guid: 935053a62a1ca6049a98cb7cb971e850,
     type: 3}
   area: {x: 20, y: 30}

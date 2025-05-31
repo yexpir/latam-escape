@@ -1,67 +1,66 @@
-﻿using CityGeneration;
+﻿using CityStuff.GenerationStuff;
 using Extensions;
-using Gameplay.Utils;
-using TMPro;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay.Data
 {
     public class CharacterState
     {
         public Character character { get; }
-        
-        public Vector3 forward { get; private set; }
-        public Vector3 right { get; private set; }
-        public int currentLaneIndex { get; private set; }
+        public Vector2Int currentChunk => MapCalculator.WorldToCell(character.transform.position);
+        public Vector2Int prevChunk;
+        public Vector3 currentForward;
+        public Vector3 prevForward;
+        public Vector3 currentRight;
+        public Vector3 prevRight;
+        public Vector3 intersection;
 
         public readonly Street currentStreet;
         public readonly Street nextStreet;
-        
-        public Vector3 intersection;
-
-        Vector3 block;
-        Vector3 prevBlock;
-
-        Vector3 prevForward;
+        public int currentLaneIndex { get; private set; }
         
         Transform pointer;
-        public CharacterState(Character newCharacter, Transform pointer)
+        
+        public CharacterState(Character newCharacter, Transform newPointer)
         {
             character = newCharacter;
-            currentLaneIndex = City.map.laneCount / 2;
             
-            forward = Vector3.forward;
-            right = Vector3.right;
+            prevChunk = Vector2Int.down;
+            
+            currentForward = Vector3.forward;
+            prevForward = Vector3.zero;
+            
+            currentRight = Vector3.right;
+            prevRight = Vector3.zero;
+            
+            intersection = Vector3.down;
             
             currentStreet = new Street();
             nextStreet = new Street();
             
-            intersection = Vector3.zero;
+            currentLaneIndex = City.map.laneCount / 2;
             
-            block = Vector3.zero;
-            prevBlock = Vector3.zero;
-            
-            prevForward = Vector3.zero;
+            pointer = newPointer;
 
-            this.pointer = pointer;
-
-            character.OnStreetCrossed.action += SetStreets;
+            character.OnIntersectionReached.action += SetStreets;
         }
 
         public void SetStreets()
         {
-            SetOrientation(character.transform);
+            SetOrientation();
             
-            currentStreet.Set(right, StreetService.GetClosestStreet(character.transform.position, right));
-            nextStreet.Set(forward, StreetService.GetClosestStreetInDirection(character.transform.position + character.state.forward * character.map.laneWidth, forward));
+            currentStreet.Set(currentRight, StreetService.GetClosestStreet(character.transform.position, currentRight));
+            nextStreet.Set(currentForward, StreetService.GetClosestStreetInDirection(character.transform.position + character.state.currentForward * City.map.laneWidth, currentForward));
 
             intersection = currentStreet.streetPosition.Project(nextStreet.streetPosition);
+            Debug.Log($"OnIntersectionReached {intersection}");
             pointer.position = intersection;
         }
-        public void SetOrientation(Transform transform)
+        public void SetOrientation()
         {
-            forward = transform.forward.Round();
-            right = transform.right.Round();
+            currentForward = character.transform.forward.Round();
+            currentRight = character.transform.right.Round();
         }
 
         public void SetCurrentLaneIndex(int index)
@@ -69,25 +68,27 @@ namespace Gameplay.Data
             currentLaneIndex = index;
         }
 
-        public bool HasEnteredNewBlock()//this shouldn't be here probably XD
+        public override string ToString()
         {
-            block = character.transform.position.Floor(City.map.blockSize);
-            if (block == prevBlock) return false;
-            prevBlock = block;
-            return true;
+            return $"FORWARD DIRECTION> {currentForward}\n" +
+                   $"";
+        }
+        
+        public bool HasEnteredNewChunk()
+        {
+            if (currentChunk != prevChunk)
+            {
+                prevChunk = currentChunk;
+                return true;
+            }
+            return false;
         }
 
         public bool HasChangedOrientation()
         {
-            if (forward == prevForward) return false;
-            prevForward = forward;
+            if (currentForward == prevForward) return false;
+            prevForward = currentForward;
             return true;
-        }
-
-        public override string ToString()
-        {
-            return $"FORWARD DIRECTION> {forward}\n" +
-                   $"";
         }
     }
 }
