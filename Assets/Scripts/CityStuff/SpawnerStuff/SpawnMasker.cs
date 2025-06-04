@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using CityStuff.ManagerStuff;
+using Extensions;
 using Gameplay;
 using UnityEngine;
 using Utils;
@@ -17,7 +18,7 @@ namespace CityStuff.SpawnerStuff
         public SpawnMasker(Character follow)
         {
             this.follow = follow;
-            areas = City.spawnAreas.spawnAreas.Select(e => new SpawnArea(e, follow)).ToList();
+            areas = City.spawnAreas.spawnAreas.Select(e => new SpawnArea(e)).ToList();
             mainArea = areas.OrderByDescending(e => Vector2.Distance(e.endpoints[0], e.endpoints[1])).FirstOrDefault();
         }
 
@@ -32,9 +33,11 @@ namespace CityStuff.SpawnerStuff
         {
             //chunksInsideArea.Clear();
             var chunksInsideArea = new HashSet<Vector2Int>();
-
+            mainArea.UpdateAreaFollow(follow.state.currentChunk);
             var bottomLeft = mainArea.bottomLeft;
             var topRight = mainArea.topRight;
+
+            MyLogger.Log($"BOTTOM-LEFT: {bottomLeft}\nTOP-RIGHT {topRight}");
             
             for (var y = bottomLeft.y; y < topRight.y; y++)
             {
@@ -43,6 +46,7 @@ namespace CityStuff.SpawnerStuff
                     chunksInsideArea.Add(new Vector2Int(x, y));
                 }
             }
+
             return chunksInsideArea;
         }
 

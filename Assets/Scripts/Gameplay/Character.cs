@@ -32,17 +32,15 @@ namespace Gameplay
             state = new CharacterState(this, pointer);
         }
 
-        void Update()
-        {
-        }
-
         void LateUpdate()
         {
             if (state.HasEnteredNewChunk())
+            {
                 OnChunkCrossed.Raise();
+                MyLogger.Log("HAS ENTERED NEW CHUNK");
+            }
             if (state.HasChangedOrientation())
                 OnOrientationChanged.Raise();
-            print(state.intersection);
         }
 
         public void SetRadius(float radius)

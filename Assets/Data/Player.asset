@@ -15,4 +15,4 @@ MonoBehaviour:
   forwardSpeed: 25
   sideStepSpeed: 25
   turnSpeed: 1500
-  acceleration: 0.0001
+  acceleration: 0.001

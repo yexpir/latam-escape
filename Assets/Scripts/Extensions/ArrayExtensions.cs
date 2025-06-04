@@ -27,7 +27,7 @@ namespace Extensions
 
         public static string ToPrint<T>(this IEnumerable<T> list)
         {
-            return list.Aggregate("", (current, e) => current + $"{e}\n");
+            return list.Aggregate("", (current, e) => $"{current}\n{e}");
         }
         
         public static string ToPrintInLine<T>(this IEnumerable<T> list)

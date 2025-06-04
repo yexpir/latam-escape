@@ -8,7 +8,7 @@ namespace Gameplay.Data
     public class CharacterState
     {
         public Character character { get; }
-        public Vector2Int currentChunk => MapCalculator.WorldToCell(character.transform.position);
+        public Vector2Int currentChunk;
         public Vector2Int prevChunk;
         public Vector3 currentForward;
         public Vector3 prevForward;
@@ -49,12 +49,12 @@ namespace Gameplay.Data
         public void SetStreets()
         {
             SetOrientation();
-            
+
+            MyLogger.Log($"SET CURRENT CHUNK: {currentChunk}");
             currentStreet.Set(currentRight, StreetService.GetClosestStreet(character.transform.position, currentRight));
             nextStreet.Set(currentForward, StreetService.GetClosestStreetInDirection(character.transform.position + character.state.currentForward * City.map.laneWidth, currentForward));
 
             intersection = currentStreet.streetPosition.Project(nextStreet.streetPosition);
-            Debug.Log($"OnIntersectionReached {intersection}");
             pointer.position = intersection;
         }
         public void SetOrientation()
@@ -76,6 +76,8 @@ namespace Gameplay.Data
         
         public bool HasEnteredNewChunk()
         {
+            currentChunk = MapCalculator.WorldToCell(character.transform.position);
+            MyLogger.Log($"CURRENT CHUNK: {currentChunk}\nPREVIOUS CHUNK: {prevChunk}");
             if (currentChunk != prevChunk)
             {
                 prevChunk = currentChunk;

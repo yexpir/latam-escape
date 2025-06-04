@@ -2,6 +2,7 @@
 using Extensions;
 using Gameplay;
 using UnityEngine;
+using Utils;
 
 namespace CityStuff.SpawnerStuff
 {
@@ -9,23 +10,21 @@ namespace CityStuff.SpawnerStuff
     public class SpawnArea
     {
         public int layer;
-        public Vector2Int bottomLeft => endpoints[0] + _character.state.currentChunk;
-        public Vector2Int topRight => endpoints[1] + _character.state.currentChunk;
+        public Vector2Int bottomLeft { get; private set; }
+        public Vector2Int topRight { get; private set; }
         
         public Vector2Int[] endpoints;
         
-        Character _character;
-        
-        public SpawnArea(SpawnAreaEntry entry, Character character)
+        public SpawnArea(SpawnAreaEntry entry)
         {
             layer = entry.layer;
             endpoints = entry.endpoints.AddToAll(entry.offset);
-            _character = character;
         }
-        
-        void OffsetEndpoints(Vector2Int offset)
+
+        public void UpdateAreaFollow(Vector2Int follow)
         {
-            endpoints.AddToAll(offset);
+            bottomLeft = endpoints[0] + follow;
+            topRight = endpoints[1] + follow;
         }
 
         public bool IsInside(Vector2 v)

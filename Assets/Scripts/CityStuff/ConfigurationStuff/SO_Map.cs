@@ -16,9 +16,10 @@ namespace CityStuff.ConfigurationStuff
         public int granularity;
         public float heightPow;
         public float heightMult;
-        public int totalLanesWidth { get; private set; }
-        public int totalStreetWidth { get; private set; }
-        public int blockSize { get; private set; }
+        
+        public int totalLanesWidth;
+        public int totalStreetWidth;
+        public int blockSize;
 
         void OnValidate()
         {
