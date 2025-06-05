@@ -12,6 +12,7 @@ namespace Gameplay
         public static readonly Raiser OnTurn = new();
         public static readonly Raiser OnRun = new();
         public static readonly Raiser OnDie = new();
+        public static readonly Raiser OnJump = new();
         
         public AbilityManager _abilityManager;
 
@@ -28,13 +29,17 @@ namespace Gameplay
         {
             if (CityBuilder.IsInsideBlock(transform.position))
                 OnDie.Raise();
+
+            if (In.movePress)
+            {
+                if (In.turnHold)
+                    OnTurn.Raise();
+                else
+                    OnSideStep.Raise();
+            }
             
-            if(!In.movePress) return;
-            
-            if (In.turnHold)
-                OnTurn.Raise();
-            else
-                OnSideStep.Raise();
+            if(In.jumpPress)
+                OnJump.Raise();
         }
     }
 }

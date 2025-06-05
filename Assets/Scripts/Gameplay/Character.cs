@@ -7,7 +7,7 @@ using Utils;
 
 namespace Gameplay
 {
-    [RequireComponent(typeof(SphereCollider))]
+    [RequireComponent(typeof(SphereCollider), typeof(Rigidbody))]
     public class Character : MonoBehaviour
     {
         public readonly Raiser OnOrientationChanged = new();
@@ -16,7 +16,9 @@ namespace Gameplay
         
         public SO_Player data;
         public CharacterState state;
-        public new SphereCollider collider { get; private set; }
+        public SphereCollider hitbox { get; private set; }
+        public Rigidbody rigidBody;
+        Vector3 _velocity;
         
         public Transform pointer;
 
@@ -26,19 +28,21 @@ namespace Gameplay
             OnOrientationChanged.action += OnIntersectionReached.Raise;
         }
 
+        void Awake()
+        {
+            rigidBody = GetComponent<Rigidbody>();
+            hitbox = GetComponent<SphereCollider>();
+        }
+
         void Start()
         {
-            collider = GetComponent<SphereCollider>();
             state = new CharacterState(this, pointer);
         }
 
         void LateUpdate()
         {
             if (state.HasEnteredNewChunk())
-            {
                 OnChunkCrossed.Raise();
-                MyLogger.Log("HAS ENTERED NEW CHUNK");
-            }
             if (state.HasChangedOrientation())
                 OnOrientationChanged.Raise();
         }
@@ -46,11 +50,14 @@ namespace Gameplay
         public void SetRadius(float radius)
         {
             if(radius <= 0.0f) return;
-            collider.radius = radius;
+            hitbox.radius = radius;
         }
 
         public void SetState(CharacterState newState) => state = newState;
 
-        public void Move(Vector3 movement) => transform.Move(movement);
+        public void Move(Vector3 movement)
+        {
+            transform.Move(movement);
+        }
     }
 }

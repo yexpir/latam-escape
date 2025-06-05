@@ -33,14 +33,14 @@ namespace Gameplay.Abilities
             
             _isMovingInZ = Mathf.Abs(transform.forward.z) > Mathf.Abs(transform.forward.x);
             
-            _movement = transform.right * (In.xButton * _character.data.sideStepSpeed * Time.deltaTime);
+            _movement = _character.state.currentRight * (In.xButton * _character.data.sideStepSpeed);
 
             //_target = Street.GetClosestStreetLaneInDirection(transform.position, transform.right * In.xButton);//Street.GetNextLaneInDirection(transform, transform.right * In.xButton).Mult(transform.right.Round().Abs()).Max();
             var target = transform.position.ProjectWithSelector(transform.right.Abs() * _target, transform.right);
             _pointer1.position = target;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if(!IsActive) return;
             
@@ -51,9 +51,11 @@ namespace Gameplay.Abilities
             var nextDistance = Mathf.Abs(_target - nextPos);
             
             if (nextDistance >= currDistance) IsActive = false;
-            
-            if (IsActive) _character.Move(_movement);
-            else transform.SetXorZ(_isMovingInZ, _target);
+
+            if (IsActive)
+                _character.Move(_movement);
+            else
+                transform.SetXorZ(_isMovingInZ, _target);
         }
 
         IEnumerator Routine()

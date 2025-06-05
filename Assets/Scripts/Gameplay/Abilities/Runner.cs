@@ -1,6 +1,7 @@
 ﻿using System;
 using Extensions;
 using UnityEngine;
+using Utils;
 
 namespace Gameplay.Abilities
 {
@@ -17,8 +18,9 @@ namespace Gameplay.Abilities
 
         void Update()
         {
+            MyLogger.Log("RUNNER");
             _moveSpeed += _acceleration;
-            _character.Move(transform.forward * (_moveSpeed * Time.deltaTime));
+            _character.Move(_character.state.currentForward * (_moveSpeed * Time.deltaTime));
         }
 
         public override void Init() => SetRaiser(PlayerController.OnRun);

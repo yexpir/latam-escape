@@ -56,7 +56,6 @@ namespace Gameplay.Abilities
             _pivotOffset = -_character.state.currentForward * _streetStart + _character.state.currentRight * (_direction * _streetStart);
             
             var intersection = _character.state.intersection;
-            print($"INTERSECTION: {intersection}");
             var pivot = intersection + _pivotOffset;
             var startingPosition = intersection - _character.state.currentForward * _streetStart;
             startingPosition = startingPosition.Project(_character.state.currentStreet.GetLane(_character.state.currentLaneIndex));
@@ -119,6 +118,7 @@ namespace Gameplay.Abilities
             }
             transform.SetXZ(targetPosition);
             transform.forward = targetForward;
+            _character.rigidBody.velocity = Vector3.zero;
             _character.state.SetOrientation();
             _character.state.SetCurrentLaneIndex(targetLaneIndex);
             IsActive = false;

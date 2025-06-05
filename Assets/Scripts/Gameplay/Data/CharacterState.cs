@@ -8,8 +8,9 @@ namespace Gameplay.Data
     public class CharacterState
     {
         public Character character { get; }
-        public Vector2Int currentChunk;
-        public Vector2Int prevChunk;
+        public Vector2Int currentChunkCoordinates;
+        public Vector2Int prevChunkCoordinates;
+        public Vector3 currentChunkPosition;
         public Vector3 currentForward;
         public Vector3 prevForward;
         public Vector3 currentRight;
@@ -26,7 +27,7 @@ namespace Gameplay.Data
         {
             character = newCharacter;
             
-            prevChunk = Vector2Int.down;
+            prevChunkCoordinates = Vector2Int.down;
             
             currentForward = Vector3.forward;
             prevForward = Vector3.zero;
@@ -50,7 +51,6 @@ namespace Gameplay.Data
         {
             SetOrientation();
 
-            MyLogger.Log($"SET CURRENT CHUNK: {currentChunk}");
             currentStreet.Set(currentRight, StreetService.GetClosestStreet(character.transform.position, currentRight));
             nextStreet.Set(currentForward, StreetService.GetClosestStreetInDirection(character.transform.position + character.state.currentForward * City.map.laneWidth, currentForward));
 
@@ -76,11 +76,11 @@ namespace Gameplay.Data
         
         public bool HasEnteredNewChunk()
         {
-            currentChunk = MapCalculator.WorldToCell(character.transform.position);
-            MyLogger.Log($"CURRENT CHUNK: {currentChunk}\nPREVIOUS CHUNK: {prevChunk}");
-            if (currentChunk != prevChunk)
+            currentChunkCoordinates = MapCalculator.WorldToCell(character.transform.position);
+            currentChunkPosition = MapCalculator.CellToWorld(currentChunkCoordinates);
+            if (currentChunkCoordinates != prevChunkCoordinates)
             {
-                prevChunk = currentChunk;
+                prevChunkCoordinates = currentChunkCoordinates;
                 return true;
             }
             return false;
@@ -90,6 +90,7 @@ namespace Gameplay.Data
         {
             if (currentForward == prevForward) return false;
             prevForward = currentForward;
+            prevRight = currentRight;
             return true;
         }
     }

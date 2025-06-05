@@ -14,8 +14,8 @@ namespace Gameplay.InputHandling
         public static bool leftRelease;
         public static bool rightRelease;
 
-        public static bool rightHold;
         public static bool leftHold;
+        public static bool rightHold;
 
         public static bool movePress;
         public static bool moveHold;
@@ -27,12 +27,22 @@ namespace Gameplay.InputHandling
 
         public static bool left;
         public static bool right;
+
+        public static bool jumpPress;
+        static In Instance { get; set; }
+        private void Awake()
+        {
+            if (Instance != null && Instance != this)
+                Destroy(gameObject);
+            else
+                Instance = this;
+        }
+
         public void Update()
         {
             x = Input.GetAxisRaw("Horizontal");
             xInt = x != 0 ? (int) MathF.Round(x, 0, MidpointRounding.AwayFromZero) : 0;
-            
-            
+
             leftPress = Input.GetKeyDown(KeyCode.LeftArrow);
             rightPress = Input.GetKeyDown(KeyCode.RightArrow);
             
@@ -47,6 +57,8 @@ namespace Gameplay.InputHandling
             moveHold = leftHold || rightHold;
             
             turnHold = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+
+            jumpPress = Input.GetKeyDown(KeyCode.Space);
             
             if (leftPress)
                 xButton = -1;

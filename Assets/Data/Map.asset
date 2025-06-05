@@ -20,3 +20,6 @@ MonoBehaviour:
   granularity: 18
   heightPow: 1.3
   heightMult: 4
+  totalLanesWidth: 9
+  totalStreetWidth: 15
+  blockSize: 75

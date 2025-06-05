@@ -33,12 +33,10 @@ namespace CityStuff.SpawnerStuff
         {
             //chunksInsideArea.Clear();
             var chunksInsideArea = new HashSet<Vector2Int>();
-            mainArea.UpdateAreaFollow(follow.state.currentChunk);
+            mainArea.UpdateAreaFollow(follow.state.currentChunkCoordinates);
             var bottomLeft = mainArea.bottomLeft;
             var topRight = mainArea.topRight;
 
-            MyLogger.Log($"BOTTOM-LEFT: {bottomLeft}\nTOP-RIGHT {topRight}");
-            
             for (var y = bottomLeft.y; y < topRight.y; y++)
             {
                 for (var x = bottomLeft.x; x < topRight.x; x++)

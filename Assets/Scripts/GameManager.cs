@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     {
         //_text.text = "fps: "+(int)(1f / Time.deltaTime);
         _text.text = $"speed: {_runner._moveSpeed:F2}";
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.R))
             ResetCurrentScene();
     }
 

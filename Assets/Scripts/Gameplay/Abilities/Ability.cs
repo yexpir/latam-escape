@@ -17,10 +17,19 @@ namespace Gameplay.Abilities
         protected Character _character;
         protected Coroutine _routine;
 
-        void Awake() => _character = GetComponent<Character>();
+        protected virtual void Awake() => _character = GetComponent<Character>();
 
-        public void Hook() => _raiser.action += Execute;
-        public void Unhook() => _raiser.action -= Execute;
+        public void Hook()
+        {
+            if(_raiser == null) return;
+                _raiser.action += Execute;
+        }
+
+        public void Unhook()
+        {
+            if(_raiser == null) return;
+            _raiser.action -= Execute;
+        }
 
         protected void SetRaiser(Raiser raiser) => _raiser = raiser;
         

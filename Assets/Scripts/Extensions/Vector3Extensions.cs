@@ -74,8 +74,9 @@ namespace Extensions
 
         public static Vector3 SetZ(this Vector3 vector, float newZ)
         {
-            vector.z = newZ;
-            return vector;
+            var v = vector;
+            v.z = newZ;
+            return v;
         }
 
         
@@ -114,11 +115,11 @@ namespace Extensions
         public static Vector3 ProjectValueWithSelector(this Vector3 vector, float value, Vector3 selector)
         {
             selector = selector.Round();
-            if (selector.x != 0)
+            if (selector.x != 0.0f)
                 vector.x = value;
-            if (selector.y != 0)
+            if (selector.y != 0.0f)
                 vector.y = value;
-            if (selector.z != 0)
+            if (selector.z != 0.0f)
                 vector.z = value;
             return vector;
         }
