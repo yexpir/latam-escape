@@ -15,11 +15,13 @@ namespace Gameplay
         public static readonly Raiser OnJump = new();
         
         public AbilityManager _abilityManager;
+        Player _player;
 
         void Awake()
         {
             _abilityManager = new AbilityManager(GetComponents<Ability>());
             _abilityManager.InitAbilities();
+            _player = GetComponent<Player>();
         }
 
         void OnEnable() => _abilityManager.HookAbilities();
@@ -38,7 +40,7 @@ namespace Gameplay
                     OnSideStep.Raise();
             }
             
-            if(In.jumpPress)
+            if(In.jumpPress && _player.isGrounded)
                 OnJump.Raise();
         }
     }

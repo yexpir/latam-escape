@@ -136,7 +136,7 @@ namespace CityStuff
 
         public static bool IsInsideBlock(Vector3 position)
         {
-            return Physics.OverlapSphereNonAlloc(position, 1, _results, Block.layerMask) > 0;
+            return Physics.OverlapSphereNonAlloc(position, 0.5f, _results, Block.layerMask) > 0;
         }static Collider[] _results = new Collider[1];
 
         public static Vector2 PlayerCell => MapCalculator.WorldToCell(PlayerPosition);

@@ -13,7 +13,6 @@ namespace Gameplay.Abilities
             var maxFallSpeed = Mathf.Clamp(-_character.velocity.y, 0, _character.data.maxFallSpeed);
             var feetSize = _character.hitbox.radius + maxFallSpeed + _feetSize;
             var hasHit = Physics.Raycast(feet, out var hit, feetSize, _layerMask);
-            print($"RAYCAST HIT: {hasHit} FEET SIZE: {feetSize}");
             if (hasHit)
             {
                 if (!_character.isGrounded)
@@ -25,13 +24,11 @@ namespace Gameplay.Abilities
                     );
                     _character.velocity.y = 0;
                     _character.isGrounded = true;
-                    print($"GROUNDED {hit.collider.name}");
                 }
             }
             else if (_character.isGrounded)
             {
                 _character.isGrounded = false;
-                print("AIRBORNE");
             }
         }
         

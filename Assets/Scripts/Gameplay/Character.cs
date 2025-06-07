@@ -20,33 +20,32 @@ namespace Gameplay
         public Rigidbody rigidBody;
         public Vector3 velocity;
         public bool isGrounded;
-        
-        
+
         public Transform pointer;
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             OnChunkCrossed.action += OnIntersectionReached.Raise;
             OnOrientationChanged.action += OnIntersectionReached.Raise;
         }
 
-        void Awake()
+        protected virtual void Awake()
         {
             rigidBody = GetComponent<Rigidbody>();
             hitbox = GetComponent<SphereCollider>();
         }
 
-        void Start()
+        protected virtual void Start()
         {
             state = new CharacterState(this, pointer);
         }
 
-        void Update()
+        protected virtual void Update()
         {
             Move(velocity);
         }
 
-        void LateUpdate()
+        protected virtual void LateUpdate()
         {
             if (state.HasEnteredNewChunk())
                 OnChunkCrossed.Raise();

@@ -16,7 +16,7 @@ MonoBehaviour:
   sideStepSpeed: 25
   turnSpeed: 1500
   acceleration: 0
-  jumpForce: 0.7
+  jumpForce: 0.8
   jumpGravity: 150
   fallGravity: 200
   maxFallSpeed: 100
