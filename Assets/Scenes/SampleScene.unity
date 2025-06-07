@@ -721,6 +721,8 @@ GameObject:
   - component: {fileID: 770143948}
   - component: {fileID: 770143949}
   - component: {fileID: 770143952}
+  - component: {fileID: 770143953}
+  - component: {fileID: 770143954}
   m_Layer: 0
   m_Name: PLAYER
   m_TagString: Untagged
@@ -823,7 +825,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.75
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &770143947
 MonoBehaviour:
@@ -870,7 +872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Death
   _blockers: []
-  _enableDeath: 1
+  _enableDeath: 0
 --- !u!114 &770143950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,6 +887,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 62826a65789a1844597a84040499e8eb, type: 2}
   rigidBody: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  isGrounded: 1
   pointer: {fileID: 686467480}
 --- !u!114 &770143952
 MonoBehaviour:
@@ -900,6 +904,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Jump
   _blockers: []
+--- !u!114 &770143953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770143938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 904baa1b747c41e3a934be9e1e532847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: 
+  _blockers: []
+--- !u!114 &770143954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 770143938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7736a754f20444f785da403f61679d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityName: land
+  _blockers: []
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _feetSize: 0.25
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1736,7 +1772,7 @@ GameObject:
   - component: {fileID: 2095378396}
   - component: {fileID: 2095378395}
   - component: {fileID: 2095378399}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

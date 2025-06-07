@@ -9,7 +9,10 @@ namespace Gameplay.Data
         public float sideStepSpeed;
         public float turnSpeed;
         public float acceleration;
-        public float fallSpeed;
         public float jumpForce;
+        public float jumpGravity;
+        public float fallGravity;
+        public float maxFallSpeed;
+        public float fallingThreshold;
     }
 }

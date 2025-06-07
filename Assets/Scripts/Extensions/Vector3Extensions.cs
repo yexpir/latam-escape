@@ -78,6 +78,21 @@ namespace Extensions
             v.z = newZ;
             return v;
         }
+        
+        public static Vector3 SetXZ(this Vector3 vector, float newX, float newZ)
+        {
+            var v = vector;
+            v.x = newX;
+            v.z = newZ;
+            return v;
+        }
+        public static Vector3 SetXZ(this Vector3 vector, Vector3 vector3)
+        {
+            var v = vector;
+            v.x = vector3.x;
+            v.z = vector3.z;
+            return v;
+        }
 
         
 

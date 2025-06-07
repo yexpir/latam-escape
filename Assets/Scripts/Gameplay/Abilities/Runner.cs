@@ -18,9 +18,9 @@ namespace Gameplay.Abilities
 
         void Update()
         {
-            MyLogger.Log("RUNNER");
             _moveSpeed += _acceleration;
-            _character.Move(_character.state.currentForward * (_moveSpeed * Time.deltaTime));
+            var movement = _character.state.currentForward * (_moveSpeed * Time.deltaTime);
+            _character.velocity = _character.velocity.Project(movement);
         }
 
         public override void Init() => SetRaiser(PlayerController.OnRun);

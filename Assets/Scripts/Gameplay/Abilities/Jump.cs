@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Extensions;
+using UnityEngine;
 
 namespace Gameplay.Abilities
 {
@@ -7,7 +8,8 @@ namespace Gameplay.Abilities
         public override void Init() => SetRaiser(PlayerController.OnJump);
         protected override void Execute()
         {
-            _character.rigidBody.velocity = Vector3.up * _character.data.jumpForce;
+            _character.velocity.y = _character.data.jumpForce;
+            print($"JUMP is grounded{_character.isGrounded}");
         }
     }
 }

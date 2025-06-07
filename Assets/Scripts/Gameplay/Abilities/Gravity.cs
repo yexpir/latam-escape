@@ -1,21 +1,25 @@
 ﻿using System;
+using Extensions;
 using UnityEngine;
 
 namespace Gameplay.Abilities
 {
-    [RequireComponent(typeof(ConstantForce))]
     public class Gravity : Ability
     {
-        ConstantForce _cForce;
-        [SerializeField] Vector3 _force;
-        protected override void Awake()
+        Vector3 _velocity;
+        void Update()
         {
-            base.Awake();
-            _cForce = GetComponent<ConstantForce>();
+            if (!_character.isGrounded)
+            {
+                if(_character.velocity.y > _character.data.fallingThreshold) 
+                    _velocity.y = -_character.data.jumpGravity * Time.deltaTime;
+                else
+                    _velocity.y = -_character.data.fallGravity * Time.deltaTime;
+            }
+            else
+                _velocity.y = 0f;
+            _character.velocity.y += _velocity.y * Time.deltaTime;
+            _character.velocity.y = Mathf.Clamp(_character.velocity.y, -_character.data.maxFallSpeed, float.MaxValue);
         }
-
-        void Start() => SetGravity(_force);
-
-        public void SetGravity(Vector3 force) => _cForce.force = _force;
     }
 }

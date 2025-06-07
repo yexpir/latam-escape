@@ -18,7 +18,9 @@ namespace Gameplay
         public CharacterState state;
         public SphereCollider hitbox { get; private set; }
         public Rigidbody rigidBody;
-        Vector3 _velocity;
+        public Vector3 velocity;
+        public bool isGrounded;
+        
         
         public Transform pointer;
 
@@ -37,6 +39,11 @@ namespace Gameplay
         void Start()
         {
             state = new CharacterState(this, pointer);
+        }
+
+        void Update()
+        {
+            Move(velocity);
         }
 
         void LateUpdate()
