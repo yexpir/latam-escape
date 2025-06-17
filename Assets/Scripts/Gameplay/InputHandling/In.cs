@@ -29,6 +29,7 @@ namespace Gameplay.InputHandling
         public static bool right;
 
         public static bool jumpPress;
+        public static bool slidePress;
         static In Instance { get; set; }
         private void Awake()
         {
@@ -58,7 +59,9 @@ namespace Gameplay.InputHandling
             
             turnHold = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-            jumpPress = Input.GetKeyDown(KeyCode.Space);
+            jumpPress = Input.GetKeyDown(KeyCode.UpArrow);
+            slidePress = Input.GetKeyDown(KeyCode.DownArrow);
+            
             
             if (leftPress)
                 xButton = -1;

@@ -1,4 +1,7 @@
-﻿using CityStuff;
+﻿using System;
+using CityStuff;
+using CityStuff.PoolStuff.PrefabStuff;
+using Extensions;
 using UnityEngine;
 using Gameplay.InputHandling;
 using Gameplay.Abilities;
@@ -13,6 +16,7 @@ namespace Gameplay
         public static readonly Raiser OnRun = new();
         public static readonly Raiser OnDie = new();
         public static readonly Raiser OnJump = new();
+        public static readonly Raiser OnSlide = new();
         
         public AbilityManager _abilityManager;
         Player _player;
@@ -29,9 +33,6 @@ namespace Gameplay
 
         void Update()
         {
-            if (CityBuilder.IsInsideBlock(transform.position))
-                OnDie.Raise();
-
             if (In.movePress)
             {
                 if (In.turnHold)
@@ -39,9 +40,21 @@ namespace Gameplay
                 else
                     OnSideStep.Raise();
             }
-            
+
+            if (In.slidePress)
+                OnSlide.Raise();
+                
             if(In.jumpPress && _player.isGrounded)
                 OnJump.Raise();
+        }
+
+        void OnTriggerEnter(Collider other)
+        {
+            print("DIE");
+            if (other.gameObject.CompareLayerMask(Block.layerMask))
+            {
+                OnDie.Raise();
+            }
         }
     }
 }

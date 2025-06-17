@@ -18,3 +18,18 @@ MonoBehaviour:
       type: 3}
     defaultSize: 600
     maxSize: 1000
+  - id: 1
+    prefab: {fileID: 6864540274137139199, guid: d62eef3715b58cd44a6b25c49b212e72,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 2
+    prefab: {fileID: 6582202159102606765, guid: 495c17a480817b146a2f480fab908d4d,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 3
+    prefab: {fileID: -2172252795038800277, guid: 259da5df785e2544aae6888a74920b6f,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000

@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa4453f941140ecb1d018e6150b2e02, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  forwardSpeed: 25
+  forwardSpeed: 20
   sideStepSpeed: 25
   turnSpeed: 1500
-  acceleration: 0
-  jumpForce: 0.8
-  jumpGravity: 150
-  fallGravity: 200
-  maxFallSpeed: 100
-  fallingThreshold: -1.05
+  acceleration: 0.0002
+  jumpHeight: 6
+  jumpDistance: 15

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Map
   m_EditorClassIdentifier: 
   cellSize: 1
-  buildingSize: 60
+  buildingSize: 100
   laneCount: 3
   laneWidth: 4
   streetEdge: 3
@@ -22,4 +22,4 @@ MonoBehaviour:
   heightMult: 4
   totalLanesWidth: 9
   totalStreetWidth: 15
-  blockSize: 75
+  blockSize: 115

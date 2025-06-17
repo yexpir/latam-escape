@@ -32,6 +32,8 @@ namespace CityStuff.PoolStuff.PrefabStuff
             _meshFilter = GetComponent<MeshFilter>();
             _collider = GetComponent<MeshCollider>();
             _renderer = GetComponent<MeshRenderer>();
+            _collider.convex = true;
+            _collider.isTrigger = true;
             _material = _renderer.material;
             gameObject.layer = layerIndex;
         }

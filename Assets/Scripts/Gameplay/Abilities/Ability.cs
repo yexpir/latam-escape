@@ -10,14 +10,18 @@ namespace Gameplay.Abilities
     [Serializable]
     public abstract class Ability : MonoBehaviour
     {
-        public string abilityName;
+        [HideInInspector]public string abilityName;
         public List<Ability> _blockers = new();
         
-        protected Raiser _raiser;
         protected Character _character;
+        protected Raiser _raiser;
         protected Coroutine _routine;
 
-        protected virtual void Awake() => _character = GetComponent<Character>();
+        protected virtual void Awake()
+        {
+            _character = GetComponent<Character>();
+            abilityName = name;
+        }
 
         public void Hook()
         {

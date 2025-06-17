@@ -1,5 +1,4 @@
 ﻿using System;
-using CityStuff.GenerationStuff;
 using Extensions;
 using Gameplay.Data;
 using UnityEngine;
@@ -7,7 +6,7 @@ using Utils;
 
 namespace Gameplay
 {
-    [RequireComponent(typeof(SphereCollider), typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody))]
     public class Character : MonoBehaviour
     {
         public readonly Raiser OnOrientationChanged = new();
@@ -16,7 +15,8 @@ namespace Gameplay
         
         public SO_Player data;
         public CharacterState state;
-        public SphereCollider hitbox { get; private set; }
+        public CapsuleCollider hitbox { get; private set; }
+        public MeshFilter meshFilter { get; private set; }
         public Rigidbody rigidBody;
         public Vector3 velocity;
         public bool isGrounded;
@@ -32,10 +32,11 @@ namespace Gameplay
         protected virtual void Awake()
         {
             rigidBody = GetComponent<Rigidbody>();
-            hitbox = GetComponent<SphereCollider>();
+            hitbox = GetComponent<CapsuleCollider>();
+            meshFilter = GetComponentInChildren<MeshFilter>();
         }
 
-        protected virtual void Start()
+        void Start()
         {
             state = new CharacterState(this, pointer);
         }

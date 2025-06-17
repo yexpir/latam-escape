@@ -161,8 +161,11 @@ namespace Extensions
             return vector;
         }
 
-        public static float Select(this Vector3 vector, Vector3 selector) => vector.Mult(selector.Abs().Round()).Max();
-        
+        public static float Select(this Vector3 vector, Vector3 selector)
+        {
+            return vector.Mult(selector.Abs().Round()).Max();
+        }
+
         public static float GetStartAngle(this Vector3 from, Vector3 to) => M.Mod(-Vector3.SignedAngle(Vector3.right, (to - from).Flatten().normalized, Vector3.up),360f);
 
         public static string ToPrintRaw(this Vector3 vector)

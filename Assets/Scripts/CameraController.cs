@@ -21,7 +21,6 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         var position = _player.transform.position;
-        print(_player.state.currentStreet.streetPosition);
 
         position = _player.IsTurning ? _player.transform.position : position.ProjectWithSelector(_player.state.currentStreet.streetPosition, _player.state.currentRight);
         position.y = _playerHeight;

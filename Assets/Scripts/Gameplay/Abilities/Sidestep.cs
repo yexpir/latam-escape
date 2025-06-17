@@ -35,7 +35,6 @@ namespace Gameplay.Abilities
             
             _movement = _character.state.currentRight * (In.xButton * _character.data.sideStepSpeed * Time.deltaTime);
 
-            //_target = Street.GetClosestStreetLaneInDirection(transform.position, transform.right * In.xButton);//Street.GetNextLaneInDirection(transform, transform.right * In.xButton).Mult(transform.right.Round().Abs()).Max();
             var target = transform.position.ProjectWithSelector(transform.right.Abs() * _target, transform.right);
             _pointer1.position = target;
         }

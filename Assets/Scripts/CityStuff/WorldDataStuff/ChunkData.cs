@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CityStuff.GenerationStuff;
 using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
 using Extensions;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace CityStuff.WorldDataStuff
 {
     public class ChunkData
     {
-        public WorldData worldData;
-        
         public Vector2Int coordinates { get; }
         public Vector3 position { get; }
         public bool isActive { get; private set; }
@@ -35,6 +36,8 @@ namespace CityStuff.WorldDataStuff
             position = MapCalculator.CellToWorld(coordinates);
             //procedural algorithm call here
             CreateObjectData(0, coordinates, "block");
+            var rnd = (uint)Random.Range(1, 3);
+            CreateObjectData(rnd, coordinates, "street1");
         }
 
         public void CreateObjectData(uint id, Vector2Int coordinates, string name)
