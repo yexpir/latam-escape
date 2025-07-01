@@ -1,6 +1,7 @@
 ﻿using System;
 using CityStuff;
 using CityStuff.PoolStuff.PrefabStuff;
+using CityStuff.PrefabStuff;
 using Extensions;
 using UnityEngine;
 using Gameplay.InputHandling;
@@ -50,11 +51,8 @@ namespace Gameplay
 
         void OnTriggerEnter(Collider other)
         {
-            print("DIE");
             if (other.gameObject.CompareLayerMask(Block.layerMask))
-            {
                 OnDie.Raise();
-            }
         }
     }
 }

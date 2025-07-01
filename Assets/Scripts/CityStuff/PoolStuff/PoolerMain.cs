@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using CityStuff.ConfigurationStuff;
 using CityStuff.PoolStuff.PrefabStuff;
-using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
+using CityStuff.PrefabStuff.BaseObjectStuff;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 using Utils;
@@ -16,10 +18,18 @@ namespace CityStuff.PoolStuff
         public static void Init()
         {
             worldObjectSet = City.worldObjectSet;
-            foreach (var poolEntry in worldObjectSet.poolEntries)
+            poolDict.Clear();
+            for (var i = 0; i < worldObjectSet.poolEntries.Count; i++)
             {
-                poolDict[poolEntry.id] = new ObjectPool<WorldObject>(
-                    () => Object.Instantiate(poolEntry.prefab),
+                var poolEntry = worldObjectSet.poolEntries[i];
+                var i1 = i;
+                poolDict[(uint)i] = new ObjectPool<WorldObject>(
+                    () =>
+                    {
+                        var o = Object.Instantiate(poolEntry.prefab);
+                        o.SetId((uint)i1);
+                        return o;
+                    },
                     obj => obj.OnGet(),
                     obj => obj.OnRelease(),
                     Object.Destroy,
@@ -28,10 +38,26 @@ namespace CityStuff.PoolStuff
                     poolEntry.maxSize
                 );
             }
+            // foreach (var poolEntry in worldObjectSet.poolEntries)
+            // {
+            //     poolDict[poolEntry.id] = new ObjectPool<WorldObject>(
+            //         () =>
+            //         {
+            //             var o = Object.Instantiate(poolEntry.prefab);
+            //             return o;
+            //         },
+            //         obj => obj.OnGet(),
+            //         obj => obj.OnRelease(),
+            //         Object.Destroy,
+            //         false,
+            //         poolEntry.defaultSize,
+            //         poolEntry.maxSize
+            //     );
+            // }
         }
         public static WorldObject Get(uint id)
         {
-            return !poolDict.ContainsKey(id) ? null : poolDict[id].Get();
+            return poolDict.ContainsKey(id) ? poolDict[id].Get() : null;
         }
 
         public static void Release(WorldObject obj)

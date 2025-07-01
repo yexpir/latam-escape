@@ -1,7 +1,7 @@
 ﻿using System.Transactions;
 using CityStuff.PoolStuff;
 using CityStuff.PoolStuff.PrefabStuff;
-using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
+using CityStuff.PrefabStuff.BaseObjectStuff;
 using CityStuff.WorldDataStuff;
 using UnityEngine;
 
@@ -14,7 +14,8 @@ namespace CityStuff.SpawnerStuff
 
         public static WorldObject Spawn(ObjectData obj, Transform parent)
         {
-            obj.Load(PoolerMain.Get(obj.id));
+            var wobj = PoolerMain.Get(obj.id);
+            obj.Load(wobj);
             obj.worldObject.Init(obj, parent);
             return obj.worldObject;
         }

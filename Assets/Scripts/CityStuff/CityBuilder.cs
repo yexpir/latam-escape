@@ -4,6 +4,7 @@ using CityStuff.ConfigurationStuff;
 using CityStuff.GenerationStuff;
 using CityStuff.GenerationStuff.BlockGenerationStuff.Mesh.Data;
 using CityStuff.PoolStuff.PrefabStuff;
+using CityStuff.PrefabStuff;
 using UnityEngine;
 using Utils;
 

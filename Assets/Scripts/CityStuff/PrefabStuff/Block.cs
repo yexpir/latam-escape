@@ -1,13 +1,11 @@
 ﻿using CityStuff.GenerationStuff;
 using CityStuff.GenerationStuff.BlockGenerationStuff.Mesh.Data;
-using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
+using CityStuff.PrefabStuff.BaseObjectStuff;
 using CityStuff.WorldDataStuff;
-using Extensions;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 
-namespace CityStuff.PoolStuff.PrefabStuff
+namespace CityStuff.PrefabStuff
 {
     [RequireComponent(typeof(MeshCollider), typeof(MeshRenderer), typeof(MeshFilter))]
     public class Block : WorldObject
@@ -56,7 +54,7 @@ namespace CityStuff.PoolStuff.PrefabStuff
             var color = Palette.colors[MapCalculator.GetHeight(data.coordinates)];
             var height = Mathf.RoundToInt(Mathf.Pow(MapCalculator.GetHeight(data.coordinates) + 1, City.map.heightPow) * City.map.heightMult);
             
-            Init(mesh, color, height, bitmask.BitToString());
+            Init(mesh, color, height, newData.position.ToString());
         }
 
         public void Init(Mesh mesh, Color color, float height, string newName)
@@ -68,7 +66,7 @@ namespace CityStuff.PoolStuff.PrefabStuff
             _material.color = color;
             
             _height = height;
-            name = newName;
+            //name = newName;
             
             _material.EnableKeyword(_emissionKeyword);
             _material.SetColor(_emissiveColorID, _color);

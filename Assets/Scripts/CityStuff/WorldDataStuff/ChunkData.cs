@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CityStuff.GenerationStuff;
-using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
+using CityStuff.PrefabStuff.BaseObjectStuff;
 using Extensions;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -27,6 +27,8 @@ namespace CityStuff.WorldDataStuff
         
         public readonly HashSet<WorldObject> activeWorldObjects = new();
 
+        public WorldObject chunkContainer;
+
 
         public ChunkData(Vector2Int newposition)
         {
@@ -35,14 +37,15 @@ namespace CityStuff.WorldDataStuff
             coordinates = newposition;
             position = MapCalculator.CellToWorld(coordinates);
             //procedural algorithm call here
-            CreateObjectData(0, coordinates, "block");
-            var rnd = (uint)Random.Range(1, 3);
-            CreateObjectData(rnd, coordinates, "street1");
+            CreateObjectData(0, coordinates);
+            var rnd = (uint)Random.Range(1, 4);
+            CreateObjectData(rnd, coordinates);
         }
 
-        public void CreateObjectData(uint id, Vector2Int coordinates, string name)
+        public void CreateObjectData(uint id, Vector2Int coordinates)
         {
-            var newobj = new ObjectData(id, coordinates, name);
+            var newobj = new ObjectData(id, coordinates);
+            _objectDatas.Add(newobj.uid, newobj);
             if (!objectDatasByLayer.ContainsKey(newobj.layer))
                 objectDatasByLayer.Add(newobj.layer, new Dictionary<uint, ObjectData>());
             objectDatasByLayer[newobj.layer].Add(newobj.uid, newobj);

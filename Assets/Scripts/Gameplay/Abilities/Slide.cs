@@ -38,6 +38,7 @@ namespace Gameplay.Abilities
             _character.hitbox.center = new Vector3(0.0f, 0.5f, 0.0f);
             _character.meshFilter.mesh = _slidingMesh;
             _character.meshFilter.transform.localPosition = new Vector3(0.0f, 0.5f, 0.0f);
+            _character.state.fallingSpeed = _character.data.fastFallSpeed;
         }
 
         void End()

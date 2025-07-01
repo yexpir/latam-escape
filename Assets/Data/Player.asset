@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   forwardSpeed: 20
-  sideStepSpeed: 25
+  sideStepSpeed: 20
   turnSpeed: 1500
-  acceleration: 0.0002
+  acceleration: 0.0001
   jumpHeight: 6
-  jumpDistance: 15
+  jumpDuration: 0.8
+  fastFallSpeed: 0

@@ -153,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data:
     layer: 0
+  _name: segment0
 --- !u!1 &4330036064277277043
 GameObject:
   m_ObjectHideFlags: 0

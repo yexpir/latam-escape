@@ -1,6 +1,6 @@
 ﻿using System;
 using CityStuff.PoolStuff.PrefabStuff;
-using CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff;
+using CityStuff.PrefabStuff.BaseObjectStuff;
 
 namespace CityStuff.PoolStuff
 {

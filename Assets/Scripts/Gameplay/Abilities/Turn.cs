@@ -51,7 +51,6 @@ namespace Gameplay.Abilities
 
         IEnumerator Routine()
         {
-            print("TURN EXECUTE");
             _direction = In.xButton;
             _streetStart = Mathf.Round((City.map.totalLanesWidth / 2.0f + City.map.laneWidth) / City.map.cellSize) * City.map.cellSize;
             _pivotOffset = -_character.state.currentForward * _streetStart + _character.state.currentRight * (_direction * _streetStart);
@@ -70,7 +69,6 @@ namespace Gameplay.Abilities
             
             //update intersection
 
-            print($"TARGET POSITION: {targetPosition}");
             if (CityBuilder.IsInsideBlock(targetPosition + Vector3.up * 2))
                 yield break;
 
@@ -85,7 +83,6 @@ namespace Gameplay.Abilities
             pointers[1].position = startingPosition;
             pointers[2].position = targetPosition;
             
-            print($"START POSITION: {startingPosition}");
             while (!Grid.HasPassedPosition(transform, startingPosition))
             {
                 if (IsBlocked)
@@ -93,15 +90,14 @@ namespace Gameplay.Abilities
                 yield return null;
             }
 
-            print("HAS REACHED TURN START");
             transform.SetXZ(startingPosition);
             transform.rotation = Quaternion.Euler(transform.rotation.x, Angle, transform.rotation.z);
             var radius = Vector3.Distance(startingPosition, pivot);
             
             IsActive = true;
+            print("TURN");
             while (IsActive)
             {
-                print("TURNING");
                 Angle += Time.deltaTime * (_turnSpeed / radius) * -_direction;
                 var radians = Angle * Mathf.Deg2Rad;
 
@@ -118,7 +114,6 @@ namespace Gameplay.Abilities
                     Stop();
                     break;
                 }
-
                 yield return null;
             }
             transform.SetXZ(targetPosition);

@@ -10,7 +10,7 @@ namespace Gameplay.Data
         public float turnSpeed;
         public float acceleration;
         public float jumpHeight;
-        public float jumpDistance;
-        
+        public float jumpDuration;
+        public float fastFallSpeed;
     }
 }

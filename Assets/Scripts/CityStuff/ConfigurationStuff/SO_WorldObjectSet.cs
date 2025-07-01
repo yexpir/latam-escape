@@ -12,15 +12,5 @@ namespace CityStuff.ConfigurationStuff
     public class SO_WorldObjectSet : ScriptableObject
     {
         public List<PoolEntry> poolEntries = new();
-
-        void OnValidate() => SetIds();
-
-        void Awake() => SetIds();
-        
-        void SetIds()
-        {
-            foreach (var entry in poolEntries.Where(entry => entry?.prefab != null))
-                entry.prefab.SetId(entry.id);
-        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
+using CityStuff.PoolStuff;
 using CityStuff.WorldDataStuff;
 using UnityEngine;
 
-namespace CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff
+namespace CityStuff.PrefabStuff.BaseObjectStuff
 {
     [Serializable]
     public abstract class WorldObject : MonoBehaviour, IPoolable
@@ -19,6 +20,7 @@ namespace CityStuff.PoolStuff.PrefabStuff.BaseObjectStuff
         
         public virtual void OnGet()
         {
+            //Debug.Log($"{data.id} {name}");
             gameObject.SetActive(true);
         }
 

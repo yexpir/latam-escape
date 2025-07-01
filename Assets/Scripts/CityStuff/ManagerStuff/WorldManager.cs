@@ -29,20 +29,9 @@ namespace CityStuff.ManagerStuff
                 MyLogger.DisableLogger();
         }
 
-        void OnEnable()
-        {
-            _player.OnChunkCrossed.action += UpdateWorld;
-        }
+        void OnEnable() => _player.OnChunkCrossed.action += UpdateWorld;
 
-        void Awake()
-        {
-            MyLogger.EnableLogger();
-
-            Init();
-            
-            _worldData = new WorldData();
-            _masker = new SpawnMasker(_player);
-        }
+        void Awake() => Init();
 
         void Init()
         {
@@ -54,16 +43,10 @@ namespace CityStuff.ManagerStuff
             StreetService.Init();
             PoolerMain.Init();
             Palette.Init();
+            _worldData = new WorldData();
+            _masker = new SpawnMasker(_player);
         }
         
         void UpdateWorld() => WorldSpawner.Spawn(_worldData, _masker, transform);
-        
-        /*void OnDrawGizmos()
-        {
-            if (_masker is null) return;            
-            Gizmos.color = Color.magenta;
-            foreach (var chunk in _worldData.activeChunks)
-                Gizmos.DrawSphere(_worldData.GetChunkData(chunk).position + Vector3.up*50, 15);
-        }*/
     }
 }

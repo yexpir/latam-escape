@@ -26,5 +26,7 @@ namespace Utils
         }
 
         public Vector3 GetLane(int index) => lanesPositions.ToArray()[index];
+
+        public override string ToString() => $"STREET: {street} AXIS: {axis}";
     }
 }

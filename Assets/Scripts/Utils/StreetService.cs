@@ -97,7 +97,5 @@ namespace Utils
         {
             return lanes.Select(l => Vector3.zero.ProjectValueWithSelector(l, selector.Round()));
         }
-        
-        
     }
 }

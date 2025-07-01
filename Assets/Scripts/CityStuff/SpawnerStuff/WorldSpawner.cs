@@ -25,11 +25,10 @@ namespace CityStuff.SpawnerStuff
             foreach (var chunkData in chunksToDespawn.Select(world.GetChunkData))
                 ChunkSpawner.Despawn(chunkData);
 
-            foreach (var chunk in chunksToSpawn)
+            foreach (var chunk in chunksToSpawn.Select(world.GetChunkData))
             {
-                var chunkData = world.GetChunkData(chunk);
-                var filter = masker.GetChunkFilter(chunk);
-                ChunkSpawner.Spawn(chunkData, filter, parent);
+                var filter = masker.GetChunkFilter(chunk.coordinates);
+                ChunkSpawner.Spawn(chunk, filter, parent);
             }
             
             world.activeChunks = activeChunks;

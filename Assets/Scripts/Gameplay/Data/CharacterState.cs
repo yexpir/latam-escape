@@ -16,13 +16,14 @@ namespace Gameplay.Data
         public Vector3 currentRight;
         public Vector3 prevRight;
         public Vector3 intersection;
+        public float fallingSpeed;
 
         public readonly Street currentStreet;
         public readonly Street nextStreet;
         public int currentLaneIndex { get; private set; }
         
         Transform pointer;
-        
+
         public CharacterState(Character newCharacter, Transform newPointer)
         {
             character = newCharacter;
