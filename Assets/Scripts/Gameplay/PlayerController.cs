@@ -45,7 +45,7 @@ namespace Gameplay
             if (In.slidePress)
                 OnSlide.Raise();
                 
-            if(In.jumpPress && _player.isGrounded)
+            if(In.jumpPress)
                 OnJump.Raise();
         }
 

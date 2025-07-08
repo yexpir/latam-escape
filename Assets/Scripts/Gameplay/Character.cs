@@ -1,4 +1,5 @@
 ﻿using System;
+using CityStuff.PrefabStuff;
 using Extensions;
 using Gameplay.Data;
 using UnityEngine;
@@ -19,7 +20,6 @@ namespace Gameplay
         public MeshFilter meshFilter { get; private set; }
         public Rigidbody rigidBody;
         public Vector3 velocity;
-        public bool isGrounded;
 
         public Transform pointer;
 
@@ -43,6 +43,16 @@ namespace Gameplay
 
         protected virtual void Update()
         {
+            if (Physics.Raycast(transform.position+Vector3.up, Vector3.down, out var hit, data.feetSize+1, 1<<9))
+            {
+                state.isGrounded = true;
+                print($"IsGrounded: {state.isGrounded} {hit.transform.gameObject.name}");
+            }
+            else
+            {
+                state.isGrounded = false;
+                print($"IsGrounded: {state.isGrounded}");
+            }
             Move(velocity);
         }
 

@@ -12,5 +12,6 @@ namespace Gameplay.Data
         public float jumpHeight;
         public float jumpDuration;
         public float fastFallSpeed;
+        public float feetSize;
     }
 }

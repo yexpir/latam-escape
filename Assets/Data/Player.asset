@@ -18,4 +18,5 @@ MonoBehaviour:
   acceleration: 0.0001
   jumpHeight: 6
   jumpDuration: 0.8
-  fastFallSpeed: 0
+  fastFallSpeed: 40
+  feetSize: 0.5

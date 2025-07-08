@@ -23,6 +23,7 @@ namespace Gameplay.Data
         public int currentLaneIndex { get; private set; }
         
         Transform pointer;
+        public bool isGrounded;
 
         public CharacterState(Character newCharacter, Transform newPointer)
         {

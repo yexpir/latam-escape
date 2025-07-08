@@ -928,6 +928,7 @@ MonoBehaviour:
   _blockers:
   - {fileID: 770143947}
   - {fileID: 770143941}
+  _stoppables: []
   pointers:
   - {fileID: 1052985554}
   - {fileID: 1529576820}
@@ -986,6 +987,7 @@ MonoBehaviour:
   abilityName: Sidestep
   _blockers:
   - {fileID: 770143941}
+  _stoppables: []
   _pointer1: {fileID: 521082576}
 --- !u!114 &770143948
 MonoBehaviour:
@@ -1001,6 +1003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Runner
   _blockers: []
+  _stoppables: []
   _moveSpeed: 25
 --- !u!114 &770143949
 MonoBehaviour:
@@ -1016,7 +1019,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Death
   _blockers: []
-  _enableDeath: 0
+  _stoppables: []
+  _enableDeath: 1
 --- !u!114 &770143950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +1036,6 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 62826a65789a1844597a84040499e8eb, type: 2}
   rigidBody: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
-  isGrounded: 1
   pointer: {fileID: 686467480}
 --- !u!114 &770143952
 MonoBehaviour:
@@ -1048,6 +1051,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilityName: Jump
   _blockers: []
+  _stoppables:
+  - {fileID: 770143954}
 --- !u!114 &770143954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1063,6 +1068,8 @@ MonoBehaviour:
   abilityName: 
   _blockers:
   - {fileID: 770143954}
+  _stoppables:
+  - {fileID: 770143952}
   _standingMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
   _slidingMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!136 &770143955

@@ -42,7 +42,7 @@ namespace Gameplay.Abilities
         protected override void Execute()
         {
             if(IsBlocked) return;
-            
+          
             if (_routine != null)
                 StopCoroutine(_routine);
             
@@ -93,8 +93,8 @@ namespace Gameplay.Abilities
             transform.SetXZ(startingPosition);
             transform.rotation = Quaternion.Euler(transform.rotation.x, Angle, transform.rotation.z);
             var radius = Vector3.Distance(startingPosition, pivot);
-            
-            IsActive = true;
+
+            Activate();
             print("TURN");
             while (IsActive)
             {
@@ -110,10 +110,8 @@ namespace Gameplay.Abilities
                 transform.forward *= -_direction;
 
                 if (!M.IsInRange(Angle, startingRotation, targetRotation))
-                {
-                    Stop();
                     break;
-                }
+                
                 yield return null;
             }
             transform.SetXZ(targetPosition);
@@ -121,7 +119,7 @@ namespace Gameplay.Abilities
             _character.velocity = _character.velocity.SetXZ(Vector3.zero);
             _character.state.SetOrientation();
             _character.state.SetCurrentLaneIndex(targetLaneIndex);
-            IsActive = false;
+            Deactivate();
             _routine = null;
         }
         static float GetStartAngle(Vector3 from, Vector3 to) => M.Mod(-Vector3.SignedAngle(Vector3.right, (to - from).Flatten().normalized, Vector3.up),360f);
