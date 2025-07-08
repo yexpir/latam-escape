@@ -52,7 +52,9 @@ namespace Gameplay.Abilities
             while (_character.state.isGrounded)
             {
                 if (IsStopped)
+                {
                     yield break;
+                }
                 yield return null;
             }
             
@@ -71,7 +73,7 @@ namespace Gameplay.Abilities
                 _character.velocity.y = yVel;
                 yield return null;
             }
-            Deactivate();;
+            Deactivate();
             _character.velocity.y = 0;
             var p = _character.transform.position;
             p.y = 0.0f;
@@ -90,6 +92,12 @@ namespace Gameplay.Abilities
         {
             //f(x)=−ax(x+1)+c
             return -_a * x * (x + 1) + _c;
+        }
+
+        public override void Stop()
+        {
+            base.Stop();
+            End();
         }
     }
 }
