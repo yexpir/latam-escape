@@ -11,7 +11,11 @@ namespace Gameplay.Data
         public float acceleration;
         public float jumpHeight;
         public float jumpDuration;
-        public float fastFallSpeed;
+        public float jumpBuffer;
         public float feetSize;
+        public float fallSpeed;
+        public float fastFallSpeed;
+        public float fallCurve;
+        public float fastFallCurve;
     }
 }

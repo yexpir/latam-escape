@@ -19,6 +19,7 @@ namespace CityStuff.ManagerStuff
         WorldData _worldData;
         SpawnMasker _masker;
 
+        [SerializeField] bool spawnWorld;
         [SerializeField] bool enableLogs = true;
 
         void OnValidate()
@@ -47,6 +48,10 @@ namespace CityStuff.ManagerStuff
             _masker = new SpawnMasker(_player);
         }
         
-        void UpdateWorld() => WorldSpawner.Spawn(_worldData, _masker, transform);
+        void UpdateWorld()
+        {
+            if (!spawnWorld) return;
+            WorldSpawner.Spawn(_worldData, _masker, transform);
+        }
     }
 }

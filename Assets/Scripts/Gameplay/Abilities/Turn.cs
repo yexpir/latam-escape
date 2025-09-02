@@ -31,7 +31,7 @@ namespace Gameplay.Abilities
             _acceleration = _turnSpeed * _character.data.acceleration;
         }
 
-        void Update()
+        public override void AbilityUpdate()
         {
             _turnSpeed += _acceleration;
         }
@@ -116,7 +116,7 @@ namespace Gameplay.Abilities
             }
             transform.SetXZ(targetPosition);
             transform.forward = targetForward;
-            _character.velocity = _character.velocity.SetXZ(Vector3.zero);
+            _character.velocity.vector = _character.velocity.vector.SetXZ(Vector3.zero);
             _character.state.SetOrientation();
             _character.state.SetCurrentLaneIndex(targetLaneIndex);
             Deactivate();

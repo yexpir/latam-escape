@@ -1,31 +1,40 @@
-﻿using CityStuff.GenerationStuff;
+﻿using System;
+using CityStuff.GenerationStuff;
 using Extensions;
 using UnityEngine;
 using Utils;
-
 namespace Gameplay.Data
 {
+    [Serializable]
     public class CharacterState
     {
         public Character character { get; }
         public Vector2Int currentChunkCoordinates;
         public Vector2Int prevChunkCoordinates;
         public Vector3 currentChunkPosition;
+        public Vector3 currentPosition => character.transform.position;
+        public Vector3 nextPosition => character.transform.position + character.velocity.vector;
+        public Vector3 currentCenter => currentPosition + character.hitbox.center;
+        public Vector3 nextCenter => nextPosition + character.hitbox.center;
         public Vector3 currentForward;
         public Vector3 prevForward;
         public Vector3 currentRight;
         public Vector3 prevRight;
         public Vector3 intersection;
-        public float fallingSpeed;
+        public Vector3 groundHit;
+        public float fallSpeed;
+        public float fallCurve;
 
         public readonly Street currentStreet;
         public readonly Street nextStreet;
         public int currentLaneIndex { get; private set; }
         
-        Transform pointer;
+        Transform _actor;
         public bool isGrounded;
-
-        public CharacterState(Character newCharacter, Transform newPointer)
+        public bool isLanding;
+        public bool isFalling;
+        
+        public CharacterState(Character newCharacter, Transform newActor)
         {
             character = newCharacter;
             
@@ -44,10 +53,11 @@ namespace Gameplay.Data
             
             currentLaneIndex = City.map.laneCount / 2;
             
-            pointer = newPointer;
+            _actor = newActor;
 
             character.OnIntersectionReached.action += SetStreets;
         }
+
 
         public void SetStreets()
         {
@@ -57,7 +67,6 @@ namespace Gameplay.Data
             nextStreet.Set(currentForward, StreetService.GetClosestStreetInDirection(character.transform.position + character.state.currentForward * City.map.laneWidth, currentForward));
 
             intersection = currentStreet.streetPosition.Project(nextStreet.streetPosition);
-            pointer.position = intersection;
         }
         public void SetOrientation()
         {
@@ -72,20 +81,21 @@ namespace Gameplay.Data
 
         public override string ToString()
         {
-            return $"FORWARD DIRECTION> {currentForward}\n" +
-                   $"";
+            return $"currentChunkCoordinates: {currentChunkCoordinates}\n" +
+                   $"currentChunkPosition: {currentChunkPosition}\n" +
+                   $"currentForward: {currentForward}\n" +
+                   $"intersection: {intersection}\n" +
+                   $"groundHit: {groundHit}\n" +
+                   $"isGrounded: {isGrounded}\n";
         }
         
         public bool HasEnteredNewChunk()
         {
             currentChunkCoordinates = MapCalculator.WorldToCell(character.transform.position);
             currentChunkPosition = MapCalculator.CellToWorld(currentChunkCoordinates);
-            if (currentChunkCoordinates != prevChunkCoordinates)
-            {
-                prevChunkCoordinates = currentChunkCoordinates;
-                return true;
-            }
-            return false;
+            if (currentChunkCoordinates == prevChunkCoordinates) return false;
+            prevChunkCoordinates = currentChunkCoordinates;
+            return true;
         }
 
         public bool HasChangedOrientation()

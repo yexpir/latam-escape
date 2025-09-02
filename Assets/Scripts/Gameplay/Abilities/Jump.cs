@@ -1,13 +1,11 @@
 ﻿using System.Collections;
-using Extensions;
 using UnityEngine;
 
 namespace Gameplay.Abilities
 {
     public class Jump : Ability
     {
-        float _a;
-        float _yOffset;
+        float _startingHeight;
         public override void Init() => SetRaiser(PlayerController.OnJump);
         protected override void Execute()
         {
@@ -21,37 +19,45 @@ namespace Gameplay.Abilities
             _routine = StartCoroutine(Routine());
         }
         
+        //-----------------JUMP INPUT BUFFER---------------------
+        // var t = _character.data.jumpBuffer;
+        //     while (!_character.state.isGrounded)
+        // {
+        //     t -= Time.deltaTime;
+        //     if(t < 0f)
+        //         yield break;
+        //     yield return null;
+        // }
+
+
         IEnumerator Routine()
         {
-            print("JUMP");
-
-            _yOffset = transform.position.y;
+            _startingHeight = _character.state.groundHit.y;
             var startTime = Time.time;
             while (IsActive)
             {
                 var x = Time.time - startTime;
-                var y = f(x);
-                if (y < 0) break;
+                var y = F(x);
                 var yVel = y - _character.transform.position.y;
-                _character.velocity.y = yVel;
+                if (yVel < 0f)
+                    break;
+                _character.velocity.Y = yVel;
                 yield return null;
             }
-            if (IsActive)
-            {
-                Deactivate();
-                _character.velocity.y = 0;
-                var p = _character.transform.position;
-                p.y = 0.0f;
-                _character.transform.position = p;
-            }
+
+            if (!IsActive) yield break;
+            
+            Deactivate();
+            
+            _character.velocity.Y = 0;
         }
 
-        float f(float x)
+        float F(float x)
         {
-            _a = 4 * _c / (_h * _h);
-            return _a * x * (_h - x) + _yOffset;
+            var h = _character.data.jumpDuration;
+            var c = _character.data.jumpHeight;
+            var a = 4 * c / (h * h);
+            return a * x * (h - x) + _startingHeight;
         }
-        float _h => _character.data.jumpDuration;
-        float _c => _character.data.jumpHeight;
     }
 }

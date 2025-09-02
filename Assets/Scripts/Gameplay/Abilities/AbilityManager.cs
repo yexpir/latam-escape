@@ -35,5 +35,17 @@ namespace Gameplay.Abilities
             foreach (var ability in abilities)
                 ability.Unhook();
         }
+
+        public void UpdateAbilities()
+        {
+            foreach (var ability in abilities)
+                ability.AbilityUpdate();
+        }
+
+        public void GizmosAbilities()
+        {
+            foreach (var ability in abilities)
+                ability.AbilityGizmos();
+        }
     }
 }

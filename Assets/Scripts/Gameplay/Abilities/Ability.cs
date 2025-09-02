@@ -13,6 +13,7 @@ namespace Gameplay.Abilities
         [HideInInspector]public string abilityName;
         public List<Ability> _blockers = new();//Stop you from starting
         public List<Ability> _stoppables = new();//Stop when you start
+        public List<Ability> _triggerables = new();//Start when you start
         
         protected Character _character;
         protected Raiser _raiser;
@@ -21,7 +22,7 @@ namespace Gameplay.Abilities
         protected virtual void Awake()
         {
             _character = GetComponent<Character>();
-            abilityName = name;
+            abilityName = GetType().Name;
         }
 
         public void Hook()
@@ -41,12 +42,6 @@ namespace Gameplay.Abilities
         public virtual void Init() => Debug.LogWarning("Initialization method not implemented");
         protected virtual void Execute() => Debug.LogWarning("Execute method not implemented");
 
-        public virtual void Stop()
-        {
-            IsActive = false;
-            IsStopped = true;
-        }
-
         public bool IsActive { get; protected set; }
 
         protected bool IsBlocked => _blockers.Any(b => b.IsActive);
@@ -56,20 +51,53 @@ namespace Gameplay.Abilities
         {
             foreach (var stoppable in _stoppables)
             {
-                print($"{stoppable.abilityName} stopped");
                 stoppable.Stop();
+            }
+        }
+
+        protected void UnStopStoppables()
+        {
+            foreach (var stoppable in _stoppables)
+            {
+                stoppable.IsStopped = false;
+            }
+        }
+        
+
+        protected void TriggerTriggerables()
+        {
+            foreach (var triggerable in _triggerables)
+            {
+                triggerable.Execute();
             }
         }
 
         public void Activate()
         {
-            IsActive = true;
             StopStoppables();
+            IsActive = true;
+            TriggerTriggerables();
         }
 
         public void Deactivate()
         {
             IsActive = false;
+        }
+        
+        public virtual void Stop()
+        {
+            Deactivate();
+            IsStopped = true;
+        }
+
+        public virtual void AbilityUpdate()
+        {
+            
+        }
+
+        public virtual void AbilityGizmos()
+        {
+            
         }
     }
 }

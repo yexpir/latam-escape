@@ -36,13 +36,18 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         var position = _player.transform.position;
+        if (_player.state.isGrounded)
+            _playerHeight = _player.state.groundHit.y;
+        else if (_player.transform.position.y < _playerHeight)
+            _playerHeight = _player.transform.position.y;
         position.y = _playerHeight;
+        
         _follow.transform.position = position;
         _follow.forward = _player.transform.forward;
 
         var laneIndex = _player.state.currentLaneIndex;
         
-        var direction = _player.state.currentForward.Max();
+        var direction = (int)_player.state.currentForward.Max();
         var forwardAxis = _player.state.currentForward.Abs();
 
         if (forwardAxis == Vector3.forward && direction == -1 || forwardAxis == Vector3.right && direction == 1)

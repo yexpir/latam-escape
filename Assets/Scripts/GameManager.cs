@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]TMP_Text _text;
 
-    public Runner _runner;
+    public Run run;
 
     void Awake()
     {
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //_text.text = "fps: "+(int)(1f / Time.deltaTime);
-        _text.text = $"speed: {_runner._moveSpeed:F2}";
+        _text.text = $"speed: {run.moveSpeed:F2}";
         if (Input.GetKeyDown(KeyCode.R))
             ResetCurrentScene();
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using CityStuff;
-using CityStuff.PoolStuff.PrefabStuff;
 using CityStuff.PrefabStuff;
 using Extensions;
 using UnityEngine;
@@ -17,16 +15,18 @@ namespace Gameplay
         public static readonly Raiser OnRun = new();
         public static readonly Raiser OnDie = new();
         public static readonly Raiser OnJump = new();
+        public static readonly Raiser OnFall = new();
+        public static readonly Raiser OnLand = new();
         public static readonly Raiser OnSlide = new();
-        
-        public AbilityManager _abilityManager;
-        Player _player;
+
+        AbilityManager _abilityManager;
+        Character _character;
 
         void Awake()
         {
+            _character = GetComponent<Character>();
             _abilityManager = new AbilityManager(GetComponents<Ability>());
             _abilityManager.InitAbilities();
-            _player = GetComponent<Player>();
         }
 
         void OnEnable() => _abilityManager.HookAbilities();
@@ -45,14 +45,30 @@ namespace Gameplay
             if (In.slidePress)
                 OnSlide.Raise();
                 
+            if(_character.state.isLanding)
+                OnLand.Raise();
+            
             if(In.jumpPress)
                 OnJump.Raise();
+            
+            if(_character.state.isFalling)
+                OnFall.Raise();
+            
+            //_character.UpdateCharacter();
+            _abilityManager.UpdateAbilities();
+            
+            _character.Move(_character.velocity.vector);
         }
 
         void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareLayerMask(Block.layerMask))
                 OnDie.Raise();
+        }
+
+        void OnDrawGizmos()
+        {
+            _abilityManager?.GizmosAbilities();
         }
     }
 }

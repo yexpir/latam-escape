@@ -19,14 +19,18 @@ namespace Gameplay
         public CapsuleCollider hitbox { get; private set; }
         public MeshFilter meshFilter { get; private set; }
         public Rigidbody rigidBody;
-        public Vector3 velocity;
 
-        public Transform pointer;
+        public VelocityProperty velocity;
+
+        
+
+        public Transform actor;
 
         protected virtual void OnEnable()
         {
             OnChunkCrossed.action += OnIntersectionReached.Raise;
             OnOrientationChanged.action += OnIntersectionReached.Raise;
+            velocity.OnVelocityChange.action += UpdateCharacter;
         }
 
         protected virtual void Awake()
@@ -38,23 +42,17 @@ namespace Gameplay
 
         void Start()
         {
-            state = new CharacterState(this, pointer);
+            state = new CharacterState(this, transform);
         }
 
-        protected virtual void Update()
+        public virtual void UpdateCharacter()
         {
-            if (Physics.Raycast(transform.position+Vector3.up, Vector3.down, out var hit, data.feetSize+1, 1<<9))
-            {
-                state.isGrounded = true;
-                print($"IsGrounded: {state.isGrounded} {hit.transform.gameObject.name}");
-            }
-            else
-            {
-                state.isGrounded = false;
-                print($"IsGrounded: {state.isGrounded}");
-            }
-            Move(velocity);
+            Physics.Raycast(state.nextCenter, Vector3.down, out var hit, Mathf.Infinity, 1<<9);
+            state.groundHit = hit.point;
+            state.isGrounded = Vector3.Distance(transform.position, state.groundHit) < data.feetSize;
         }
+
+        bool _previousValue;
 
         protected virtual void LateUpdate()
         {
@@ -75,6 +73,53 @@ namespace Gameplay
         public void Move(Vector3 movement)
         {
             transform.Move(movement);
+        }
+    }
+
+    [Serializable]
+    public class VelocityProperty
+    {
+        [SerializeField] Vector3 _vector;
+        public readonly Raiser OnVelocityChange = new();
+
+        public Vector3 vector
+        {
+            get => _vector;
+            set
+            {
+                _vector = value;
+                OnVelocityChange.Raise();
+            }
+        }
+
+        public float X
+        {
+            get => _vector.x;
+            set
+            {
+                _vector.x = value;
+                OnVelocityChange.Raise();
+            }
+        }
+
+        public float Y
+        {
+            get => _vector.y;
+            set
+            {
+                _vector.y = value;
+                OnVelocityChange.Raise();
+            }
+        }
+
+        public float Z
+        {
+            get => _vector.z;
+            set
+            {
+                _vector.z = value;
+                OnVelocityChange.Raise();
+            }
         }
     }
 }

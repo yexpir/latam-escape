@@ -39,7 +39,7 @@ namespace Gameplay.Abilities
             _pointer1.position = target;
         }
 
-        void Update()
+        public override void AbilityUpdate()
         {
             if(!IsActive) return;
             
@@ -51,10 +51,10 @@ namespace Gameplay.Abilities
             
             if (nextDistance >= currDistance) IsActive = false;
 
-            if (IsActive) _character.velocity = _character.velocity.Project(_movement);
+            if (IsActive) _character.velocity.vector = _character.velocity.vector.Project(_movement);
             else
             {
-                _character.velocity = _character.velocity.ProjectValueWithSelector(0f, _character.state.currentRight);
+                _character.velocity.vector = _character.velocity.vector.ProjectValueWithSelector(0f, _character.state.currentRight);
                 transform.SetXorZ(_isMovingInZ, _target);
             }
         }
