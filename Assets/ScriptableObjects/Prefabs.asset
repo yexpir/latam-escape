@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfeddb9bf78747839c12881d517b9426, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  poolEntries:
+  - id: 0
+    prefab: {fileID: 3398735513206977187, guid: 935053a62a1ca6049a98cb7cb971e850,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 1
+    prefab: {fileID: 1025106838295539214, guid: 6f52c05f1fbbc194f94982377998e1ad,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 2
+    prefab: {fileID: 4092264620497320459, guid: 512d37e785923464faf075f09e432037,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 3
+    prefab: {fileID: 2024262205218121262, guid: 67ad837dec8a6a2438fad0bade64579b,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 4
+    prefab: {fileID: 5779155521843650817, guid: e2dc5e97f7f53d7428b2bdb1a886eaf1,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 5
+    prefab: {fileID: 4092264620497320459, guid: 065fc299c1df59446acceca931e0c51d,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 6
+    prefab: {fileID: 1025106838295539214, guid: 0a02abb3590fc9b4596ad1e2f0195d64,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 7
+    prefab: {fileID: 3143806246804440048, guid: ccdd5341b9fd77f48aa14bb038050ec1,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 8
+    prefab: {fileID: 3143806246804440048, guid: 9b0f6f1c547916641b022c9efd7b7a39,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000
+  - id: 9
+    prefab: {fileID: 2703076717934462661, guid: 07e89759b30a05e4c8db56ae37abc6b3,
+      type: 3}
+    defaultSize: 600
+    maxSize: 1000

@@ -1,8 +1,8 @@
-﻿using System;
-using CityStuff.ConfigurationStuff;
+﻿using CityStuff.ConfigurationStuff;
 using CityStuff.GenerationStuff;
 using CityStuff.GenerationStuff.BlockGenerationStuff.Mesh.Data;
 using CityStuff.PoolStuff;
+using CityStuff.PrefabStuff;
 using CityStuff.SpawnerStuff;
 using CityStuff.WorldDataStuff;
 using Gameplay;
@@ -44,6 +44,10 @@ namespace CityStuff.ManagerStuff
             StreetService.Init();
             PoolerMain.Init();
             Palette.Init();
+            IDManager.Init();
+            
+            _city.segmentSet.Init();
+            
             _worldData = new WorldData();
             _masker = new SpawnMasker(_player);
         }

@@ -41,7 +41,7 @@ namespace Gameplay.Abilities
                 var yVel = y - _character.transform.position.y;
                 if (yVel < 0f)
                     break;
-                _character.velocity.Y = yVel;
+                _character.vector3.Y = yVel;
                 yield return null;
             }
 
@@ -49,7 +49,7 @@ namespace Gameplay.Abilities
             
             Deactivate();
             
-            _character.velocity.Y = 0;
+            _character.vector3.Y = 0;
         }
 
         float F(float x)

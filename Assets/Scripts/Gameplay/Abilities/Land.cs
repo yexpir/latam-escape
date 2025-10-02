@@ -33,7 +33,7 @@ namespace Gameplay.Abilities
             if (!_character.state.isGrounded) return;
             
             var groundYCorrection = _character.state.groundHit.y - transform.position.y;
-            _character.velocity.Y = groundYCorrection;
+            _character.vector3.Y = groundYCorrection;
             
             _character.state.fallSpeed = _character.data.fallSpeed;
             _character.state.fallCurve = _character.data.fallCurve;

@@ -13,7 +13,7 @@ namespace Gameplay.Data
         public Vector2Int prevChunkCoordinates;
         public Vector3 currentChunkPosition;
         public Vector3 currentPosition => character.transform.position;
-        public Vector3 nextPosition => character.transform.position + character.velocity.vector;
+        public Vector3 nextPosition => character.transform.position + character.vector3.vector;
         public Vector3 currentCenter => currentPosition + character.hitbox.center;
         public Vector3 nextCenter => nextPosition + character.hitbox.center;
         public Vector3 currentForward;

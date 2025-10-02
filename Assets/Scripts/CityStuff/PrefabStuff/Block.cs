@@ -45,14 +45,14 @@ namespace CityStuff.PrefabStuff
             }
         }
 
-        public override void Init(ObjectData newData, Transform parent)
+        public override void Init(ObjectData newData)
         {
-            base.Init(newData, parent);
+            base.Init(newData);
 
-            var bitmask = MapCalculator.GetCellBitmask(data.coordinates);
+            var bitmask = MapCalculator.GetCellBitmask(data.chunkCoordinates);
             var mesh = MeshData.GetMesh(bitmask);
-            var color = Palette.colors[MapCalculator.GetHeight(data.coordinates)];
-            var height = Mathf.RoundToInt(Mathf.Pow(MapCalculator.GetHeight(data.coordinates) + 1, City.map.heightPow) * City.map.heightMult);
+            var color = Palette.colors[MapCalculator.GetHeight(data.chunkCoordinates)];
+            var height = Mathf.RoundToInt(Mathf.Pow(MapCalculator.GetHeight(data.chunkCoordinates) + 1, City.map.heightPow) * City.map.heightMult);
             
             Init(mesh, color, height, newData.position.ToString());
         }

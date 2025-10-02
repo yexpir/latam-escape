@@ -1,8 +1,8 @@
 ﻿using System;
-using CityStuff.PoolStuff.PrefabStuff;
 using CityStuff.PrefabStuff;
 using EditorAttributes;
 using UnityEngine;
+using Utils;
 
 namespace CityStuff.ConfigurationStuff
 {
@@ -14,6 +14,7 @@ namespace CityStuff.ConfigurationStuff
         public SO_Block blockData;
         public SO_SpawnAreas spawnAreas;
         public SO_WorldObjectSet worldObjectSet;
+        public SO_SegmentSet segmentSet;
         public Block blockPrefab;
         public Vector2 area;
         

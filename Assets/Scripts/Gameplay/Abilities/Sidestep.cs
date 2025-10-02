@@ -51,10 +51,10 @@ namespace Gameplay.Abilities
             
             if (nextDistance >= currDistance) IsActive = false;
 
-            if (IsActive) _character.velocity.vector = _character.velocity.vector.Project(_movement);
+            if (IsActive) _character.vector3.vector = _character.vector3.vector.Project(_movement);
             else
             {
-                _character.velocity.vector = _character.velocity.vector.ProjectValueWithSelector(0f, _character.state.currentRight);
+                _character.vector3.vector = _character.vector3.vector.ProjectValueWithSelector(0f, _character.state.currentRight);
                 transform.SetXorZ(_isMovingInZ, _target);
             }
         }

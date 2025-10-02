@@ -2,25 +2,26 @@
 using CityStuff.PoolStuff;
 using CityStuff.WorldDataStuff;
 using UnityEngine;
+using Utils;
 
 namespace CityStuff.PrefabStuff.BaseObjectStuff
 {
     [Serializable]
     public abstract class WorldObject : MonoBehaviour, IPoolable
     {
-        public uint id { get; private set; }
+        [field:SerializeField]public int id { get; private set; }
         public ObjectData data;
 
-        public virtual void Init(ObjectData newData, Transform parent)
+        public virtual void Init(ObjectData newData)
         {
             data = newData;
             transform.position = data.position;
-            transform.parent = parent;
+            transform.rotation = data.rotation;
+            transform.SetParent(data.chunkContainer.transform);
         }
         
         public virtual void OnGet()
         {
-            //Debug.Log($"{data.id} {name}");
             gameObject.SetActive(true);
         }
 
@@ -29,9 +30,9 @@ namespace CityStuff.PrefabStuff.BaseObjectStuff
             gameObject.SetActive(false);
         }
 
-        public void SetId(uint id)
+        public void SetId(int newID)
         {
-            this.id = id;
+            id = newID;
         }
     }
 }

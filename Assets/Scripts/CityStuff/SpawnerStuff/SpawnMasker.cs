@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CityStuff.ManagerStuff;
-using Extensions;
 using Gameplay;
 using UnityEngine;
 using Utils;

@@ -20,7 +20,7 @@ namespace Gameplay
         public MeshFilter meshFilter { get; private set; }
         public Rigidbody rigidBody;
 
-        public VelocityProperty velocity;
+        public Vector3Property vector3;
 
         
 
@@ -30,7 +30,7 @@ namespace Gameplay
         {
             OnChunkCrossed.action += OnIntersectionReached.Raise;
             OnOrientationChanged.action += OnIntersectionReached.Raise;
-            velocity.OnVelocityChange.action += UpdateCharacter;
+            vector3.OnVector3Change.action += UpdateCharacter;
         }
 
         protected virtual void Awake()
@@ -77,10 +77,10 @@ namespace Gameplay
     }
 
     [Serializable]
-    public class VelocityProperty
+    public class Vector3Property
     {
         [SerializeField] Vector3 _vector;
-        public readonly Raiser OnVelocityChange = new();
+        public readonly Raiser OnVector3Change = new();
 
         public Vector3 vector
         {
@@ -88,7 +88,7 @@ namespace Gameplay
             set
             {
                 _vector = value;
-                OnVelocityChange.Raise();
+                OnVector3Change.Raise();
             }
         }
 
@@ -98,7 +98,7 @@ namespace Gameplay
             set
             {
                 _vector.x = value;
-                OnVelocityChange.Raise();
+                OnVector3Change.Raise();
             }
         }
 
@@ -108,7 +108,7 @@ namespace Gameplay
             set
             {
                 _vector.y = value;
-                OnVelocityChange.Raise();
+                OnVector3Change.Raise();
             }
         }
 
@@ -118,7 +118,7 @@ namespace Gameplay
             set
             {
                 _vector.z = value;
-                OnVelocityChange.Raise();
+                OnVector3Change.Raise();
             }
         }
     }

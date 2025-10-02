@@ -116,7 +116,7 @@ namespace Gameplay.Abilities
             }
             transform.SetXZ(targetPosition);
             transform.forward = targetForward;
-            _character.velocity.vector = _character.velocity.vector.SetXZ(Vector3.zero);
+            _character.vector3.vector = _character.vector3.vector.SetXZ(Vector3.zero);
             _character.state.SetOrientation();
             _character.state.SetCurrentLaneIndex(targetLaneIndex);
             Deactivate();

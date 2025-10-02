@@ -21,6 +21,8 @@ namespace Gameplay
 
         AbilityManager _abilityManager;
         Character _character;
+        void OnEnable() => _abilityManager.HookAbilities();
+        void OnDisable() => _abilityManager.UnhookAbilities();
 
         void Awake()
         {
@@ -28,9 +30,6 @@ namespace Gameplay
             _abilityManager = new AbilityManager(GetComponents<Ability>());
             _abilityManager.InitAbilities();
         }
-
-        void OnEnable() => _abilityManager.HookAbilities();
-        void OnDisable() => _abilityManager.UnhookAbilities();
 
         void Update()
         {
@@ -57,7 +56,7 @@ namespace Gameplay
             //_character.UpdateCharacter();
             _abilityManager.UpdateAbilities();
             
-            _character.Move(_character.velocity.vector);
+            _character.Move(_character.vector3.vector);
         }
 
         void OnTriggerEnter(Collider other)

@@ -12,7 +12,6 @@ namespace Gameplay.Abilities
 
         protected override void Execute()
         {
-            print("FALL");
             if (IsBlocked) return;
             if (_character.state.isGrounded) return;
             
@@ -41,11 +40,11 @@ namespace Gameplay.Abilities
                 var y = F(x);
                 if (y < _character.state.groundHit.y) break;
                 var yVel = y - _character.transform.position.y;
-                _character.velocity.Y = yVel;
+                _character.vector3.Y = yVel;
                 yield return null;
             }
             Deactivate();
-            _character.velocity.Y = 0;
+            _character.vector3.Y = 0;
             var p = _character.transform.position;
             p.y = _character.state.groundHit.y;
             _character.transform.position = p;

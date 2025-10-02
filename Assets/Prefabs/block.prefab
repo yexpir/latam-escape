@@ -119,4 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f592ef32455e43a9835c9097709e8be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <id>k__BackingField: 0
+  data:
+    layer: 0
   ShowID: 0

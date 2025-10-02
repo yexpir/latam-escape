@@ -1,5 +1,4 @@
 ﻿using CityStuff.ConfigurationStuff;
-using CityStuff.PoolStuff.PrefabStuff;
 using CityStuff.PrefabStuff;
 using UnityEngine;
 
@@ -14,13 +13,11 @@ namespace Utils
         public static SO_Block block => city.blockData;
         public static SO_SpawnAreas spawnAreas => city.spawnAreas;
         public static SO_WorldObjectSet worldObjectSet => city.worldObjectSet;
+        public static SO_SegmentSet segmentSet => city.segmentSet;
         public static Block blockPrefab => city.blockPrefab;
         
         public static Vector2 area => city.area;
 
-        public static void SetCity(SO_City city)
-        {
-            City.city = city;
-        }
+        public static void SetCity(SO_City newCity) => city = newCity;
     }
 }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CityStuff.GenerationStuff;
+using CityStuff.PrefabStuff;
 using CityStuff.PrefabStuff.BaseObjectStuff;
 using Extensions;
-using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 namespace CityStuff.WorldDataStuff
@@ -15,45 +15,65 @@ namespace CityStuff.WorldDataStuff
         public Vector2Int coordinates { get; }
         public Vector3 position { get; }
         public bool isActive { get; private set; }
-        public uint uid { get; }
+        public int uid { get; }
+        public static int chunkCount { get; private set; }
         
         public HashSet<int> filter = new();
-        
 
-        Dictionary<uint , ObjectData> _objectDatas = new();
-        public IReadOnlyDictionary<uint, ObjectData> objectDatas => _objectDatas;
-        public readonly Dictionary<int, Dictionary<uint, ObjectData>> objectDatasByLayer = new();
+
+        Dictionary<int , ObjectData> _objectDatas = new();
+        public IReadOnlyDictionary<int, ObjectData> objectDatas => _objectDatas;
+        public readonly Dictionary<int, Dictionary<int, ObjectData>> objectDatasByLayer = new();
         
         
         public readonly HashSet<WorldObject> activeWorldObjects = new();
 
-        public WorldObject chunkContainer;
+        public ObjectData chunkContainerData;
+        public ChunkContainer chunkContainer;
 
-
-        public ChunkData(Vector2Int newposition)
+        public ChunkData(Vector2Int newChunkCoordinates)
         {
             chunkCount++;
             uid = chunkCount;  
-            coordinates = newposition;
+            coordinates = newChunkCoordinates;
             position = MapCalculator.CellToWorld(coordinates);
             //procedural algorithm call here
-            CreateObjectData(0, coordinates);
-            var rnd = (uint)Random.Range(1, 4);
-            CreateObjectData(rnd, coordinates);
+            
+            //CHUNK CONTAINER
+            CreateChunkContainerData();
+            
+            //BLOCK
+            CreateObjectData(0, IDManager.blockID);
+            
+            var segments = City.segmentSet.segments;
+            if (segments.Count == 0) return;
+            
+            //STREET 1
+            var index = Random.Range(0, segments.Count);
+            var segment = segments[index];
+            foreach (var piece in segment.pieces)
+                CreateObjectData(1, piece.Item1, piece.Item2, piece.Item3);
+            
+            //STREET 2
         }
 
-        public void CreateObjectData(uint id, Vector2Int coordinates)
+        void CreateChunkContainerData()
         {
-            var newobj = new ObjectData(id, coordinates);
+            chunkContainerData = new ObjectData(0, IDManager.chunkContainerID, coordinates);
+        }
+
+        void CreateObjectData(int hierarchy, int id, Vector3 wobjPosition = default, Quaternion wobjRotation = default)
+        {
+            var newobj = new ObjectData(hierarchy, id, coordinates, wobjPosition, wobjRotation);
             _objectDatas.Add(newobj.uid, newobj);
             if (!objectDatasByLayer.ContainsKey(newobj.layer))
-                objectDatasByLayer.Add(newobj.layer, new Dictionary<uint, ObjectData>());
+                objectDatasByLayer.Add(newobj.layer, new Dictionary<int, ObjectData>());
             objectDatasByLayer[newobj.layer].Add(newobj.uid, newobj);
         }
 
-        public IEnumerable<ObjectData> GetObjectDatas(HashSet<int> filter)
+        public IEnumerable<ObjectData> GetObjectDatas(HashSet<int> newFilter)
         {
-            this.filter = filter;
+            filter = newFilter;
             var layers = new HashSet<int>(filter);
             var filteredObjectDatas = objectDatasByLayer
                 .Where(k => layers.Contains(k.Key))
@@ -62,12 +82,12 @@ namespace CityStuff.WorldDataStuff
             return filteredObjectDatas;
         }
 
-        public void UpdateObjectData(uint uid)
+        public void UpdateObjectData(int uid)
         {
             
         }
 
-        public void DeleteObjectData(uint uid)
+        public void DeleteObjectData(int uid)
         {
             _objectDatas.Remove(uid);
         }   
@@ -85,7 +105,15 @@ namespace CityStuff.WorldDataStuff
             if (activeWorldObjects.Count == 0)
                 isActive = false;
         }
+
+        public void AddChunkContainer(ChunkContainer newChunkContainer)
+        {
+            chunkContainer = newChunkContainer;
+        }
         
-        public static uint chunkCount { get; private set; }
+        public void RemoveChunkContainer()
+        {
+            chunkContainer = null;
+        }
     }
 }

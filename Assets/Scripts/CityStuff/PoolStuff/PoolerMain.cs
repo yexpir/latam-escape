@@ -13,7 +13,7 @@ namespace CityStuff.PoolStuff
     public static class PoolerMain
     {
         public static SO_WorldObjectSet worldObjectSet;
-        public static readonly Dictionary<uint, ObjectPool<WorldObject>> poolDict = new();
+        public static readonly Dictionary<int, ObjectPool<WorldObject>> poolDict = new();
 
         public static void Init()
         {
@@ -23,13 +23,8 @@ namespace CityStuff.PoolStuff
             {
                 var poolEntry = worldObjectSet.poolEntries[i];
                 var i1 = i;
-                poolDict[(uint)i] = new ObjectPool<WorldObject>(
-                    () =>
-                    {
-                        var o = Object.Instantiate(poolEntry.prefab);
-                        o.SetId((uint)i1);
-                        return o;
-                    },
+                poolDict[i] = new ObjectPool<WorldObject>(
+                    () => Object.Instantiate(poolEntry.prefab),
                     obj => obj.OnGet(),
                     obj => obj.OnRelease(),
                     Object.Destroy,
@@ -55,9 +50,9 @@ namespace CityStuff.PoolStuff
             //     );
             // }
         }
-        public static WorldObject Get(uint id)
+        public static WorldObject Get(int id)
         {
-            return poolDict.ContainsKey(id) ? poolDict[id].Get() : null;
+            return poolDict.TryGetValue(id, out var objPool) ? objPool.Get() : null;
         }
 
         public static void Release(WorldObject obj)

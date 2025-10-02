@@ -18,7 +18,7 @@ namespace Gameplay.Abilities
         {
             moveSpeed += _acceleration;
             var movement = _character.state.currentForward * (moveSpeed * Time.deltaTime);
-            _character.velocity.vector = _character.velocity.vector.Project(movement);
+            _character.vector3.vector = _character.vector3.vector.Project(movement);
         }
 
         public override void Init() => SetRaiser(PlayerController.OnRun);
